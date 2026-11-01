@@ -1,0 +1,60 @@
+{
+  "created": "2026-11-02T02:31:58.994295+08:00",
+  "status": "local_tests_passed",
+  "tests": 44,
+  "duration_seconds": 19.623,
+  "local_runtime": {
+    "torch": "2.5.1+cpu",
+    "brevitas": "0.12.1",
+    "numpy": "1.26.4"
+  },
+  "target_runtime": {
+    "cuda": "12.4.0",
+    "torch": "2.5.1",
+    "mamba_ssm": "2.2.6.post3"
+  },
+  "verified": [
+    "three_precision_training_config_composition",
+    "five_requested_WA_formats",
+    "grouping_32_64_128_none",
+    "symmetric_partial_full_rotations",
+    "QR_Hadamard_and_padding_inverse",
+    "observer_and_sequential_calibration",
+    "effective_weights_preserved_after_calibration",
+    "eight_format_calibration_paths_exact_freeze_reload",
+    "mixed_dtype_checkpoint_loading_to_FP32",
+    "sweep_deduplication_and_resume"
+  ],
+  "not_run": [
+    "remote_CUDA_training",
+    "remote_CUDA_smoke",
+    "real_checkpoint_dataset_accuracy"
+  ],
+  "files_sha256": {
+    "ptq.py": "8712116c3c3d6ee99c410034596d75744bf971283d739aaf7714a8c540472464",
+    "ptq_activation_observer.py": "56d4d43eff389043af919153962e3d580ceff804c790c19233f5c6f70769f4a3",
+    "ptq_activation_sequential.py": "4ffafb3b3a174c2f49ada617316b52e17275bccf975fae640faa21fb4d317d5b",
+    "ptq_calibration.py": "a9fe0cb02f206837fad8849b62c485dae9a36309ec3274865a9efa947c2721ef",
+    "ptq_calibration_test.py": "4aabb94df2543e9d53b8ca8ce68e0951903e78e77573cd8f07f0140eae18ddf4",
+    "ptq_cuda_check.py": "d8485fffccc0f3eebe83c2945b4c874e62a330fb5f2eda7d8cbe701c7c75eb64",
+    "ptq_finetune.py": "68548628348505343fc0923119a6c0aaaf47b6ac8160436232a242ed77adeae7",
+    "ptq_LICENSE": "74f12a486d18d6cecb6e732d03832c7235e6e2d70e0a9d8ec0ee303d33622555",
+    "ptq_mamba_NOTICE.txt": "96c023f0a462bd92b21c5b8008be00fa085a4e398fe6eeeccaacde2b6faccbe6",
+    "ptq_options_test.py": "247f01f544efe96c74a7fd75872ace804257af8ff4a2baea47bac9b224fba521",
+    "ptq_quant.py": "b4708c75352e04588669af32376e9168cefe5d4967fb72d06612bf54e027bc9f",
+    "ptq_README.md": "3d1399d089eb1c81fe37fffd51815f6a3da598de39e6b2ccfc708878950e70d1",
+    "ptq_requirements.txt": "54fbffa6939ce055aca2daa5fef9f7fcda01e532dfb8dc191c9b130ffc340141",
+    "ptq_runtime.py": "98d20c1a289bddf01d9e251818af883ca173bec968403eb83c69e54b8401587f",
+    "ptq_sources.json": "e72d5be3fae78fe0b34879e9804c8ae45034da973300fa9f8508fdec515df7be",
+    "ptq_sweep.py": "fc42c531fa6b7a0f98cd73e3a0256fbbf56732f90795e8cfc39feb67283fcdbd",
+    "ptq_test.py": "0ed0f219de5ace7eebdf87f716775d5f8076ad307ad55cb67af0ab52e7964f76"
+  },
+  "directory": "myptq/",
+  "entry_point_checks": {
+    "ptq_from_root_and_subdirectory": true,
+    "finetune_default_repository": true,
+    "sweep_child_script_and_repository": true,
+    "cuda_check_imports_and_help": true,
+    "upstream_body_hash": true
+  }
+}

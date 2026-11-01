@@ -1,0 +1,7 @@
+# Add-on for observer activation calibration only. Keep the existing CUDA torch/Mamba.
+# python -m pip install --no-deps -r ptq_requirements.txt
+brevitas==0.12.1
+dependencies==2.0.1
+unfoldNd==0.2.3
+numpy==1.26.4
+setuptools==69.5.1

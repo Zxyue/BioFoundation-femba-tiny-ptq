@@ -1,0 +1,9 @@
+Mamba adapter attribution
+Copyright (c) 2023, Tri Dao, Albert Gu.
+Source: https://github.com/state-spaces/mamba/blob/v2.2.6.post3/mamba_ssm/modules/mamba_simple.py
+License: Apache-2.0. A copy is bundled at ptq_LICENSE.
+
+ptq_activation_observer.py adapts the unfused full-window Mamba inference equations
+by adding explicit fake-quant boundaries, retaining the existing parameters,
+using torch CUDA convolution, and calling the original CUDA selective_scan_fn.
+It does not use the ARES QuantSSM recurrence or substitute its projection rank.

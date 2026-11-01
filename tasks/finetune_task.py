@@ -130,7 +130,12 @@ class FinetuneTask(pl.LightningModule):
         assert self.model.classifier is not None
         print("Loading pretrained safetensors checkpoint")
         state_dict = load_file(model_ckpt)
-        self.load_state_dict(state_dict, strict=False)
+        # self.load_state_dict(state_dict, strict=False)
+
+        missing, unexpected = self.load_state_dict(state_dict, strict=False)
+        print("Pretrained matched keys:", len(state_dict) - len(unexpected))
+        print("Missing keys:", missing)
+        print("Unexpected keys:", unexpected)
 
         for name, param in self.model.named_parameters():
             if self.hparams.finetuning.freeze_layers:

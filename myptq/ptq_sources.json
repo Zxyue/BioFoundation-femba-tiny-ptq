@@ -1,0 +1,28 @@
+{
+  "sequential_activation": {
+    "repository": "https://github.com/xiaochenwang860-png/femba-qap",
+    "commit": "ac9a4c0e53c874d9f587ca762f1a9b1d6857b3fc",
+    "original_path": "models/act_quant.py",
+    "local_path": "ptq_activation_sequential.py",
+    "sha256": "4ffafb3b3a174c2f49ada617316b52e17275bccf975fae640faa21fb4d317d5b",
+    "changes": "Filename only; runtime module body preserved."
+  },
+  "weight_mse": {
+    "repository": "https://github.com/xiaochenwang860-png/femba-qap",
+    "commit": "ac9a4c0e53c874d9f587ca762f1a9b1d6857b3fc",
+    "original_path": "models/weight_quant.py",
+    "changes": "36-point 30%-100% absmax search adapted to the framework grouping/tensor/rotation rules; FP64 scoring and cached effective weights."
+  },
+  "observer_calibration": {
+    "recipe_repository": "https://github.com/tianyuantong/femba-tiny-reproduction",
+    "recipe_commit": "61844dd44587e0cc1f231d897f10e07026d1d561",
+    "changes": "Absorbed observer-only activation statistics and optional floating-weight calibration. No ARES architecture or separate model loader is retained."
+  },
+  "mamba_forward": {
+    "repository": "https://github.com/state-spaces/mamba",
+    "tag": "v2.2.6.post3",
+    "license": "Apache-2.0",
+    "notice": "ptq_mamba_NOTICE.txt"
+  },
+  "note": "Attribution only. Runtime selection uses functional parameters, never person-specific routing. Absorbed methods are not bitwise upstream reproductions."
+}
