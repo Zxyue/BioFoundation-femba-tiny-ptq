@@ -1,0 +1,123 @@
+{
+  "repo": "/workspace/other/femba-qap",
+  "data_root": "/workspace/EEGdata/tusl-events-20261026-v2",
+  "presets": {
+    "W32A32": [
+      0,
+      0,
+      null
+    ],
+    "W4A32": [
+      4,
+      0,
+      null
+    ],
+    "W4A8": [
+      4,
+      8,
+      99.9
+    ],
+    "W8A32": [
+      8,
+      0,
+      null
+    ],
+    "W8A8": [
+      8,
+      8,
+      99.9
+    ],
+    "W4A4": [
+      4,
+      4,
+      95.0
+    ]
+  },
+  "pretrain_epochs": 50,
+  "finetune_epochs": 10,
+  "source_sha256": {
+    "run_train.py": "4dae8e7cf8f5f1eb2f02ad49865e1e953270e81f2e56f7bf922074b8c2032563",
+    "models/FEMBA.py": "384ed796e0cdfc75db63eef5a05cd9219f258be5e112c595f4abc0a048d8827e",
+    "models/weight_quant.py": "d1556cd85c0caef832028feb7ea3eaa2e0a9dcf1fe28d0bc93c946395ad4f0a7",
+    "models/act_quant.py": "4ffafb3b3a174c2f49ada617316b52e17275bccf975fae640faa21fb4d317d5b",
+    "tasks/pretrain_qap_task.py": "5ce0f15362c8da28297e08dcac24f26886cbe1501c6b44e90b19e23221f4a0e8",
+    "tasks/finetune_qap_task.py": "3b90a7944cbd988666e1a41bccd6dbadc6fd1093517b3ddc62d97dc9c5d2d62c",
+    "tasks/finetune_task.py": "a17fa64fd070842358d7812f81faec0275fbc13a0c3bbcdf1bb2a61dfbb750c3",
+    "datasets/hdf5_dataset.py": "f0461d1d4a20fe9930d3fc5d35df791899ec33d2b401ab547d01c2cd8cf92c98",
+    "data_module/finetune_data_module.py": "f5e15802a45ebc8af98165320cfb2daba4b62b742b1cf8f9cbbfba565672474a",
+    "schedulers/cosine.py": "73e90615da0d717f1515d1edbb516b289ba2ab242095e218f1a5ed6709ba78ab",
+    "config/criterion/finetune_criterion.yaml": "e85602bba92785a0e1f8fb31a6ee730b7feafdf303d58889fe00dcae52c6475e",
+    "config/criterion/pretrain_criterion.yaml": "1736550330c342a1c0d52caeed6819eb10c04eebde68f1b2f120172b5a225ea5",
+    "config/data_module/dataset_types.yaml": "a6559cf4084daa37ec536e50c8547743e776bf20285a2d972adf9337a7be1a3c",
+    "config/data_module/emg_finetune_data_module.yaml": "5b0f4791100d9cb7f299d53ede43b669ac29c158133c815d056255668c50f81a",
+    "config/data_module/emg_pretrain_data_module.yaml": "a921deff4aecf6a1765bfb248b67426c03d518c6cf19031c74fa70b644881a60",
+    "config/data_module/finetune_data_module.yaml": "255da340f5ce5c46a146867a2d0cdf8c5420409dbbca66f72553c0658e7e9dbb",
+    "config/data_module/finetune_data_module_multimodal_PanLUNA.yaml": "4dd1c04b9c2db619784fe11705da37d5febf4b5950da092148c5f7e439eb4b04",
+    "config/data_module/finetune_data_module_unimodal_PanLUNA.yaml": "4a5f50a82c1a84cfc82731428eb984671843cdc36d5e578f435b3079e28210a4",
+    "config/data_module/multiloader_data_module.yaml": "f1b524504bff3548543a0e48354c4ae809fc8b20cdeb66b96351d25decb3f8d7",
+    "config/data_module/multiloader_data_module_PanLUNA.yaml": "a31bc9bd22235cca02ae2048861d8d6f96ca5cd4b5d064d33645ba7ce9e437d8",
+    "config/data_module/pretrain_data_module.yaml": "f711094a02605c9e91f051986f933fccaeb7360aeefa402ed00c804e941bf2f9",
+    "config/data_module/pretrain_tuar_subject.yaml": "1407b32ca3a13be0d25f6d99285d908c33ff525cb8f632e349c5bd85ffa79f7b",
+    "config/data_module/subject_independent_data_module.yaml": "ed220a46b344b39b9dc4d4898a6c105c06222aa6e74e15709d05c084f398af1e",
+    "config/defaults.yaml": "d65279a0a462690e4707011c83068c730376ea5143237ace33763ab8ebd61812",
+    "config/experiment/FEMBA_finetune.yaml": "a1d8dc2b943172d8c45b5900d13a252b7473f91d803847cb253c179b0ea14e45",
+    "config/experiment/FEMBA_pretrain.yaml": "5c473ce70054df62cde271f100a9bb8f278bc41462e20c56a07a207a3bc263a7",
+    "config/experiment/FEMBA_quantized.yaml": "4c4cbac66250fbe73b167a913860014759b5ae64b99805555f2bc69e39992786",
+    "config/experiment/LUNA_finetune.yaml": "c85c15d9cfa765aa456bdd01aa8284aa83acf1e205b8e58410201e9b36a01f29",
+    "config/experiment/LUNA_pretrain.yaml": "fcc0e2ece1ee2b306de8abc536b25fb45f9bb972aee290c827f73997a8b4edd8",
+    "config/experiment/LuMamba_finetune.yaml": "b2d08a3916200be96dea98e827a682bd50206e4a6ea7d02ba2ae591bcc2a3818",
+    "config/experiment/LuMamba_pretrain.yaml": "e4bb2ba688c353eaffc80933acfbf776994764271fde26381de10bdc167c8e33",
+    "config/experiment/PanLUNA_finetune.yaml": "626d27d2cf233d07d6aa2239d6917daa43a001716f36f6565031bbe6ea851697",
+    "config/experiment/PanLUNA_pretrain.yaml": "1e765b6e2164855635e97847b6a62d6848e334b3b98f2f49c1cc4805738aa593",
+    "config/experiment/TinyMyo_finetune.yaml": "5ad5dd5cd66e37ec3efdd7b58968d2bc783a239b10bf66cca97f3b98ef4f4935",
+    "config/experiment/TinyMyo_pretrain.yaml": "7aca6936a007b52027ca13658a858790773d597f4880e672cb4a48965e1f79c0",
+    "config/model/FEMBA_finetune.yaml": "ae8367edfc96584cc5a4d3a75cc9164f88b3fb274f23075be9255709bed1deb2",
+    "config/model/FEMBA_pretrain.yaml": "cd6c891ffe3b9b1c494cf07ae08b6131396e9d0ab571962245de2090ad61ea80",
+    "config/model/FEMBA_quantized.yaml": "861093814383c6ba341c245aaf489ea789f1933276ef194783cec01188c5cbcf",
+    "config/model/LUNA_base.yaml": "46d7dd18c381073c5f5acb33b3ce9bc008e49123b0e41f1c532abea7eb32f3bd",
+    "config/model/LUNA_huge.yaml": "d4b3c3900174c61eae06bca29f0d5a32c93ab077e13eafa560dca31238b9b4af",
+    "config/model/LUNA_large.yaml": "1e632c3d874e9dd19c858699908080d0bbeb3c4fc5d31350ccf877fc8c29f823",
+    "config/model/LuMamba_tiny.yaml": "5439f967af9162521a8e04668efc630df0ce9f1fb8e0ed96b72549d9262b706e",
+    "config/model/PanLUNA_finetune.yaml": "c160e9618a19e21158a38b3d7f495901469254cbd18349afba340485b5cc36e1",
+    "config/model/PanLUNA_pretrain.yaml": "bf52c96363d9e47e8194130b108c9b2a2dbdae5fad6b45bd5f3362b81cd89047",
+    "config/model/TinyMyo_finetune.yaml": "17a9685e63389ea5aa612a03db5beb6719c6fd5768a1e33fc28660cd21517718",
+    "config/model/TinyMyo_pretrain.yaml": "f4e381aac79f5bd25a2d07ff042bf15539997e14ebb7e362ef8b558d3a59eb3f",
+    "config/scheduler/cosine.yaml": "78db171e123ce3e3cca647c6957fa010d050f603a9dd287db0021962a2d891b2",
+    "config/scheduler/multi_step_lr.yaml": "df1267b64cd4cd7548add536736d3b9953ddb7d935127ef9921611f59d40d492",
+    "config/task/finetune_base_qat_task.yaml": "aa475beff92fdcac3822ba85c2e8e6127e09e4ea0f029a49c4952cb1778b896f",
+    "config/task/finetune_qap_task.yaml": "68378f947e1b966558cf6f159c27ad14c3dc1dd709f42be8ad3fbbfd0d19e295",
+    "config/task/finetune_regression_task_LuMamba.yaml": "f32726f9ad6a6286b3d99f79d8a35bace5974d411d8dbe05a9a22d87201e2b02",
+    "config/task/finetune_task.yaml": "8ce613c4c8f38b24e9c6f6b0ec10c7d6cce0986b44e8f89bb48913d1a9bb796a",
+    "config/task/finetune_task_LUNA.yaml": "c222b560db85171945810198add324f6191088aef7261fab394dddd1fda08500",
+    "config/task/finetune_task_PanLUNA.yaml": "6cb881fbd2f98c818dfea86b651dd29d691eabfd33d025cf0a5d78f93b8ddf5a",
+    "config/task/finetune_task_TinyMyo.yaml": "5a37fc335b7d361b2a4af830ade86a0557290a6a73ed7bb8f64504fb90527378",
+    "config/task/pretrain_qap_task.yaml": "72d20f9b2c2cca309859f426e5254ae059cea4dc746eaf6e226de7d61e80beca",
+    "config/task/pretrain_task.yaml": "57dd6eabe7f28d6b7d8cd8fbb1b690b49f6fc7adb75316ede2cf054aa9c6d1ef",
+    "config/task/pretrain_task_LUNA.yaml": "863d716f3d2b4ff10be075f1b3b72d34deb74cd0f94e500afe546aaf10ecf0ae",
+    "config/task/pretrain_task_LuMamba.yaml": "df11fca9cf2983963dbd5d527203693611c8da191d523b3301fe900ac693a57c",
+    "config/task/pretrain_task_PanLUNA.yaml": "1f408b5fc46d4e4641192113ba2b6c51d46e7d2af223c8a7351e13d9ff5a6f92",
+    "config/task/pretrain_task_TinyMyo.yaml": "565a114d036d0ada734f1af5ca780f73cb95d68b8d80178da309312df760db1c"
+  },
+  "helper_sha256": {
+    "audit_tusl.py": "84f34e03e3b1558be821729d00383100c594b9e9f3870e5f703c51625a26a2ee",
+    "eval_tusl_qap.py": "72694fc497de57f8bb5275e8047ebf7a19dcea7c26e4f15764ea2f254826d866",
+    "run_all_tusl_qap.py": "d320c21705fb0c7b96e1172b9762802b08691407138db3002da19b25032fd5b6",
+    "summarize_all.py": "b5721e6e9184ad0ee1c5295e572c7c3908d68bcae69de07fed529a64278dfe3a",
+    "tusl_qap.py": "e9a55e4ee664e06cac61367d5cdac9d03e3e07fecfb64e4449304db90c068bef",
+    "config/data_module/finetune_tusl_events.yaml": "4b7ebec482c27a25d0228ed160ad4fe2a6414e949d4f3b65c905452ddeadfdae",
+    "config/data_module/pretrain_tusl_events.yaml": "68ae12460d028d804abd0b68dba1f23d41577a531485b1e7d11b4a02e07dfc59"
+  },
+  "versions": {
+    "python": "3.11.1 (main, Feb  6 2026, 08:59:00) [GCC 13.3.0]",
+    "torch": "2.5.1+cu124",
+    "pytorch-lightning": "2.6.6",
+    "mamba-ssm": "2.2.6.post3",
+    "causal-conv1d": "1.7.0",
+    "hydra-core": "1.3.8",
+    "omegaconf": "2.3.1",
+    "numpy": "2.3.5",
+    "h5py": "3.15.1",
+    "torchmetrics": "1.9.0",
+    "timm": "1.0.30"
+  }
+}

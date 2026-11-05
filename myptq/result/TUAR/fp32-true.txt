@@ -1,0 +1,373 @@
+(biofoundation) e260086@gpu-a40-1:~/BioFoundation-femba-tiny-ptq$ python -u myptq/ptq_finetune.py   --pretrained-weights "$HOME/BioFoundation-femba-tiny-ptq/checkpoints/femba/TUAR/FEMBA_tiny_prefixed.safetensors"   --data-dir "$HOME/processed_eeg/TUAR_data"   --output-dir "$HOME/BioFoundation-femba-tiny-ptq/results/finetune/fp32"   --precision fp32   --epochs 30   --batch-size 128   --learning-rate 5e-4   --num-workers 4   --seed 42
+/home/e260086/.conda/envs/biofoundation/bin/python -u /home/e260086/BioFoundation-femba-tiny-ptq/run_train.py +experiment=FEMBA_tiny_finetune 'pretrained_safetensors_path="/home/e260086/BioFoundation-femba-tiny-ptq/checkpoints/femba/TUAR/FEMBA_tiny_prefixed.safetensors"' ++trainer.precision=32-true trainer.accelerator=gpu trainer.devices=1 trainer.max_epochs=30 batch_size=128 num_workers=4 seed=42 optimizer.lr=0.0005 tag=FEMBA_tiny_finetune_fp32 resume=False final_test=True
+
+
+/home/e260086/BioFoundation-femba-tiny-ptq/run_train.py:205: Hydra14MigrationWarning:
+version_base="1.1" selects Hydra 1.1 compatibility behavior.
+Hydra 1.4 will remove this compatibility behavior.
+Before upgrading to Hydra 1.4, set version_base="1.3" and test your application.
+See https://hydra.cc/docs/upgrades/1.3_to_1.4/prepare_for_1_4/ for preparation instructions.
+  @hydra.main(config_path="./config", config_name="defaults", version_base="1.1")
+/home/e260086/.conda/envs/biofoundation/lib/python3.11/site-packages/hydra/_internal/hydra.py:119: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+See https://hydra.cc/docs/1.2/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+  ret = run_job(
+PyTorch-Lightning Version: 2.6.5
+tag: FEMBA_tiny_finetune_fp32
+gpus: 1
+num_nodes: 1
+num_workers: 4
+batch_size: 128
+seed: 42
+resume: false
+pretrained_checkpoint: null
+load_state_dict: false
+training: true
+print_model: true
+find_unused_parameters: false
+model_checkpoint:
+  save_last: true
+  save_top_k: 1
+  monitor: val_loss
+  mode: min
+callbacks:
+  lr_monitor:
+    _target_: pytorch_lightning.callbacks.LearningRateMonitor
+    logging_interval: step
+  progress_bar:
+    _target_: pytorch_lightning.callbacks.TQDMProgressBar
+    refresh_rate: 50
+  epoch_summary:
+    _target_: util.epoch_summary.EpochSummary
+  early_stopping:
+    _target_: pytorch_lightning.callbacks.EarlyStopping
+    monitor: val_loss
+    patience: 10
+    mode: min
+    verbose: true
+io:
+  version: 0
+  base_output_path: /home/e260086/BioFoundation-femba-tiny-ptq/results/finetune/fp32/tb_logs
+  checkpoint_dirpath: /home/e260086/BioFoundation-femba-tiny-ptq/results/finetune/fp32/checkpoints
+trainer:
+  num_nodes: 1
+  devices: 1
+  strategy: auto
+  max_epochs: 30
+  max_steps: 500000
+  benchmark: true
+  log_every_n_steps: 50
+  check_val_every_n_epoch: 1
+  val_check_interval: null
+  num_sanity_val_steps: 0
+  accelerator: gpu
+  precision: 32-true
+optimizer:
+  optim: AdamW
+  lr: 0.0005
+  betas:
+  - 0.9
+  - 0.999
+  weight_decay: 0.5
+masking:
+  patch_size:
+  - 2
+  - 16
+  masking_ratio: 0.6
+input_normalization:
+  normalize: true
+  quartile_normalization_lower_val: -20
+  quartile_normalization_upper_val: 20
+data_module:
+  _target_: data_module.finetune_data_module.FinetuneDataModule
+  name: eeg
+  cfg:
+    num_workers: 4
+    batch_size: 128
+  train:
+    _target_: datasets.hdf5_dataset.HDF5Loader
+    hdf5_file: /home/e260086/processed_eeg/TUAR_data/train.h5
+  val:
+    _target_: datasets.hdf5_dataset.HDF5Loader
+    hdf5_file: /home/e260086/processed_eeg/TUAR_data/val.h5
+  test:
+    _target_: datasets.hdf5_dataset.HDF5Loader
+    hdf5_file: /home/e260086/processed_eeg/TUAR_data/test.h5
+task:
+  _target_: tasks.finetune_task.FinetuneTask
+scheduler:
+  _target_: schedulers.cosine.CosineLRSchedulerWrapper
+  trainer:
+    num_nodes: 1
+    devices: 1
+    strategy: auto
+    max_epochs: 30
+    max_steps: 500000
+    benchmark: true
+    log_every_n_steps: 50
+    check_val_every_n_epoch: 1
+    val_check_interval: null
+    num_sanity_val_steps: 0
+    accelerator: gpu
+    precision: 32-true
+  warmup_epochs: 10
+  min_lr: 2.5e-06
+  warmup_lr_init: 2.5e-07
+  t_in_epochs: false
+model:
+  _target_: models.FEMBA.FEMBA
+  seq_length: 1280
+  num_channels: 22
+  exp: 4
+  num_classes: 2
+  num_blocks: 2
+  embed_dim: 35
+  classification_type: bc
+criterion:
+  _target_: torch.nn.CrossEntropyLoss
+final_validate: true
+final_test: true
+finetune_pretrained: true
+layerwise_lr_decay: 0.75
+scheduler_type: cosine
+pretrained_checkpoint_path: null
+pretrained_safetensors_path: /home/e260086/BioFoundation-femba-tiny-ptq/checkpoints/femba/TUAR/FEMBA_tiny_prefixed.safetensors
+finetuning:
+  freeze_layers: true
+
+[rank: 0] Seed set to 42
+===> Loading datasets
+===> Start building model
+FinetuneTask(
+  (model): FEMBA(
+    (patch_embed): PatchEmbed(
+      (proj): Conv2d(1, 35, kernel_size=(2, 16), stride=(2, 16))
+      (norm): Identity()
+    )
+    (mamba_blocks): ModuleList(
+      (0-1): 2 x MambaWrapper(
+        (mamba_fwd): Mamba(
+          (in_proj): Linear(in_features=385, out_features=3080, bias=False)
+          (conv1d): Conv1d(1540, 1540, kernel_size=(4,), stride=(1,), padding=(3,), groups=1540)
+          (act): SiLU()
+          (x_proj): Linear(in_features=1540, out_features=57, bias=False)
+          (dt_proj): Linear(in_features=25, out_features=1540, bias=True)
+          (out_proj): Linear(in_features=1540, out_features=385, bias=False)
+        )
+        (mamba_rev): Mamba(
+          (in_proj): Linear(in_features=385, out_features=3080, bias=False)
+          (conv1d): Conv1d(1540, 1540, kernel_size=(4,), stride=(1,), padding=(3,), groups=1540)
+          (act): SiLU()
+          (x_proj): Linear(in_features=1540, out_features=57, bias=False)
+          (dt_proj): Linear(in_features=25, out_features=1540, bias=True)
+          (out_proj): Linear(in_features=1540, out_features=385, bias=False)
+        )
+      )
+    )
+    (norm_layers): ModuleList(
+      (0-1): 2 x LayerNorm((385,), eps=1e-05, elementwise_affine=True)
+    )
+    (classifier): MambaClassifier(
+      (fc1): Linear(in_features=385, out_features=256, bias=True)
+      (activation1): GELU(approximate='none')
+      (mamba_1): Mamba(
+        (in_proj): Linear(in_features=256, out_features=1024, bias=False)
+        (conv1d): Conv1d(512, 512, kernel_size=(4,), stride=(1,), padding=(3,), groups=512)
+        (act): SiLU()
+        (x_proj): Linear(in_features=512, out_features=48, bias=False)
+        (dt_proj): Linear(in_features=16, out_features=512, bias=True)
+        (out_proj): Linear(in_features=512, out_features=256, bias=False)
+      )
+      (fc3): Linear(in_features=256, out_features=2, bias=True)
+    )
+  )
+  (criterion): CrossEntropyLoss()
+  (train_label_metrics): MetricCollection(
+    (BinaryAccuracy): BinaryAccuracy()
+    (MulticlassRecall): MulticlassRecall()
+    (BinaryPrecision): BinaryPrecision()
+    (BinaryF1Score): BinaryF1Score()
+    (BinaryCohenKappa): BinaryCohenKappa(),
+    prefix=train_
+  )
+  (val_label_metrics): MetricCollection(
+    (BinaryAccuracy): BinaryAccuracy()
+    (MulticlassRecall): MulticlassRecall()
+    (BinaryPrecision): BinaryPrecision()
+    (BinaryF1Score): BinaryF1Score()
+    (BinaryCohenKappa): BinaryCohenKappa(),
+    prefix=val_
+  )
+  (test_label_metrics): MetricCollection(
+    (BinaryAccuracy): BinaryAccuracy()
+    (MulticlassRecall): MulticlassRecall()
+    (BinaryPrecision): BinaryPrecision()
+    (BinaryF1Score): BinaryF1Score()
+    (BinaryCohenKappa): BinaryCohenKappa(),
+    prefix=test_
+  )
+  (train_logit_metrics): MetricCollection(
+    (BinaryAUROC): BinaryAUROC()
+    (BinaryAveragePrecision): BinaryAveragePrecision(),
+    prefix=train_
+  )
+  (val_logit_metrics): MetricCollection(
+    (BinaryAUROC): BinaryAUROC()
+    (BinaryAveragePrecision): BinaryAveragePrecision(),
+    prefix=val_
+  )
+  (test_logit_metrics): MetricCollection(
+    (BinaryAUROC): BinaryAUROC()
+    (BinaryAveragePrecision): BinaryAveragePrecision(),
+    prefix=test_
+  )
+)
+===> Loading pretrained safetensors from /home/e260086/BioFoundation-femba-tiny-ptq/checkpoints/femba/TUAR/FEMBA_tiny_prefixed.safetensors
+Loading pretrained safetensors checkpoint
+Pretrained matched keys: 43
+Missing keys: ['model.classifier.fc1.weight', 'model.classifier.fc1.bias', 'model.classifier.mamba_1.A_log', 'model.classifier.mamba_1.D', 'model.classifier.mamba_1.in_proj.weight', 'model.classifier.mamba_1.conv1d.weight', 'model.classifier.mamba_1.conv1d.bias', 'model.classifier.mamba_1.x_proj.weight', 'model.classifier.mamba_1.dt_proj.weight', 'model.classifier.mamba_1.dt_proj.bias', 'model.classifier.mamba_1.out_proj.weight', 'model.classifier.fc3.weight', 'model.classifier.fc3.bias']
+Unexpected keys: []
+Pretrained model ready.
+Checkpoint path: /home/e260086/BioFoundation-femba-tiny-ptq/results/finetune/fp32/checkpoints/FEMBA_tiny_finetune_fp32/FEMBA_tiny_finetune_fp32_04_11_12-50-19.977030
+===> Checkpoint callbacks
+===> Instantiate other callbacks
+===> Instantiate trainer
+/home/e260086/.conda/envs/biofoundation/lib/python3.11/site-packages/lightning_fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /home/e260086/BioFoundation-femba-tiny-ptq/run_train ...
+Trainer already configured with model summary callbacks: [<class 'pytorch_lightning.callbacks.model_summary.ModelSummary'>]. Skipping setting a default `ModelSummary` callback.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+===> Start training
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Loading `train_dataloader` to estimate number of stepping batches.
+
+   | Name                                       | Type                   | Params | Mode  | FLOPs
+-------------------------------------------------------------------------------------------------------
+0  | model                                      | FEMBA                  | 8.3 M  | train | 0
+1  | model.patch_embed                          | PatchEmbed             | 1.2 K  | train | 0
+2  | model.patch_embed.proj                     | Conv2d                 | 1.2 K  | train | 0
+3  | model.patch_embed.norm                     | Identity               | 0      | train | 0
+4  | model.mamba_blocks                         | ModuleList             | 7.8 M  | train | 0
+5  | model.mamba_blocks.0                       | MambaWrapper           | 3.9 M  | train | 0
+6  | model.mamba_blocks.0.mamba_fwd             | Mamba                  | 1.9 M  | train | 0
+7  | model.mamba_blocks.0.mamba_rev             | Mamba                  | 1.9 M  | train | 0
+8  | model.mamba_blocks.1                       | MambaWrapper           | 3.9 M  | train | 0
+9  | model.mamba_blocks.1.mamba_fwd             | Mamba                  | 1.9 M  | train | 0
+10 | model.mamba_blocks.1.mamba_rev             | Mamba                  | 1.9 M  | train | 0
+11 | model.norm_layers                          | ModuleList             | 1.5 K  | train | 0
+12 | model.norm_layers.0                        | LayerNorm              | 770    | train | 0
+13 | model.norm_layers.1                        | LayerNorm              | 770    | train | 0
+14 | model.classifier                           | MambaClassifier        | 537 K  | train | 0
+15 | model.classifier.fc1                       | Linear                 | 98.8 K | train | 0
+16 | model.classifier.activation1               | GELU                   | 0      | train | 0
+17 | model.classifier.mamba_1                   | Mamba                  | 437 K  | train | 0
+18 | model.classifier.mamba_1.in_proj           | Linear                 | 262 K  | train | 0
+19 | model.classifier.mamba_1.conv1d            | Conv1d                 | 2.6 K  | train | 0
+20 | model.classifier.mamba_1.act               | SiLU                   | 0      | train | 0
+21 | model.classifier.mamba_1.x_proj            | Linear                 | 24.6 K | train | 0
+22 | model.classifier.mamba_1.dt_proj           | Linear                 | 8.7 K  | train | 0
+23 | model.classifier.mamba_1.out_proj          | Linear                 | 131 K  | train | 0
+24 | model.classifier.fc3                       | Linear                 | 514    | train | 0
+25 | criterion                                  | CrossEntropyLoss       | 0      | train | 0
+26 | train_label_metrics                        | MetricCollection       | 0      | train | 0
+27 | train_label_metrics.BinaryAccuracy         | BinaryAccuracy         | 0      | train | 0
+28 | train_label_metrics.MulticlassRecall       | MulticlassRecall       | 0      | train | 0
+29 | train_label_metrics.BinaryPrecision        | BinaryPrecision        | 0      | train | 0
+30 | train_label_metrics.BinaryF1Score          | BinaryF1Score          | 0      | train | 0
+31 | train_label_metrics.BinaryCohenKappa       | BinaryCohenKappa       | 0      | train | 0
+32 | val_label_metrics                          | MetricCollection       | 0      | train | 0
+33 | val_label_metrics.BinaryAccuracy           | BinaryAccuracy         | 0      | train | 0
+34 | val_label_metrics.MulticlassRecall         | MulticlassRecall       | 0      | train | 0
+35 | val_label_metrics.BinaryPrecision          | BinaryPrecision        | 0      | train | 0
+36 | val_label_metrics.BinaryF1Score            | BinaryF1Score          | 0      | train | 0
+37 | val_label_metrics.BinaryCohenKappa         | BinaryCohenKappa       | 0      | train | 0
+38 | test_label_metrics                         | MetricCollection       | 0      | train | 0
+39 | test_label_metrics.BinaryAccuracy          | BinaryAccuracy         | 0      | train | 0
+40 | test_label_metrics.MulticlassRecall        | MulticlassRecall       | 0      | train | 0
+41 | test_label_metrics.BinaryPrecision         | BinaryPrecision        | 0      | train | 0
+42 | test_label_metrics.BinaryF1Score           | BinaryF1Score          | 0      | train | 0
+43 | test_label_metrics.BinaryCohenKappa        | BinaryCohenKappa       | 0      | train | 0
+44 | train_logit_metrics                        | MetricCollection       | 0      | train | 0
+45 | train_logit_metrics.BinaryAUROC            | BinaryAUROC            | 0      | train | 0
+46 | train_logit_metrics.BinaryAveragePrecision | BinaryAveragePrecision | 0      | train | 0
+47 | val_logit_metrics                          | MetricCollection       | 0      | train | 0
+48 | val_logit_metrics.BinaryAUROC              | BinaryAUROC            | 0      | train | 0
+49 | val_logit_metrics.BinaryAveragePrecision   | BinaryAveragePrecision | 0      | train | 0
+50 | test_logit_metrics                         | MetricCollection       | 0      | train | 0
+51 | test_logit_metrics.BinaryAUROC             | BinaryAUROC            | 0      | train | 0
+52 | test_logit_metrics.BinaryAveragePrecision  | BinaryAveragePrecision | 0      | train | 0
+-------------------------------------------------------------------------------------------------------
+8.3 M     Trainable params
+0         Non-trainable params
+8.3 M     Total params
+33.329    Total estimated model params size (MB)
+77        Modules in train mode
+0         Modules in eval mode
+0         Total Flops
+Epoch 0: 100%|██████████████████████████████████████████████████████████████████| 433/433 [00:47<00:00,  9.14it/s, v_num=7030, train_loss_step=0.420]/home/e260086/.conda/envs/biofoundation/lib/python3.11/site-packages/torchmetrics/utilities/prints.py:43: UserWarning: No negative samples in targets, false positive value should be meaningless. Returning zero tensor in false positive score
+  warnings.warn(*args, **kwargs)
+[epoch 00] train_loss=NA val_loss=0.465509 val_AUROC=0.885045 val_F1=0.771902
+Epoch 0: 100%|██████████████████████████| 433/433 [00:49<00:00,  8.67it/s, v_num=7030, train_loss_step=0.420, val_loss=0.466, train_loss_epoch=0.530]Metric val_loss improved. New best score: 0.466
+[epoch 01] train_loss=0.530007 val_loss=0.420680 val_AUROC=0.894440 val_F1=0.824647
+Epoch 1: 100%|██████████████████████████| 433/433 [00:50<00:00,  8.59it/s, v_num=7030, train_loss_step=0.239, val_loss=0.421, train_loss_epoch=0.306]Metric val_loss improved by 0.045 >= min_delta = 0.0. New best score: 0.421
+[epoch 02] train_loss=0.306222 val_loss=0.418779 val_AUROC=0.902238 val_F1=0.815602
+Epoch 2: 100%|██████████████████████████| 433/433 [00:50<00:00,  8.55it/s, v_num=7030, train_loss_step=0.241, val_loss=0.419, train_loss_epoch=0.274]Metric val_loss improved by 0.002 >= min_delta = 0.0. New best score: 0.419
+[epoch 03] train_loss=0.274477 val_loss=0.434092 val_AUROC=0.889732 val_F1=0.805000
+[epoch 04] train_loss=0.258548 val_loss=0.429554 val_AUROC=0.911548 val_F1=0.821107
+[epoch 05] train_loss=0.246463 val_loss=0.441719 val_AUROC=0.900175 val_F1=0.829452
+[epoch 06] train_loss=0.233257 val_loss=0.437226 val_AUROC=0.902903 val_F1=0.829990
+[epoch 07] train_loss=0.225667 val_loss=0.484173 val_AUROC=0.894277 val_F1=0.815865
+[epoch 08] train_loss=0.222947 val_loss=0.460862 val_AUROC=0.897604 val_F1=0.832287
+[epoch 09] train_loss=0.212973 val_loss=0.444192 val_AUROC=0.897094 val_F1=0.837908
+[epoch 10] train_loss=0.209420 val_loss=0.522495 val_AUROC=0.892332 val_F1=0.800807
+[epoch 11] train_loss=0.182283 val_loss=0.522039 val_AUROC=0.895009 val_F1=0.836197
+[epoch 12] train_loss=0.163377 val_loss=0.593524 val_AUROC=0.887872 val_F1=0.826344
+Epoch 12: 100%|████████████████████████| 433/433 [00:50<00:00,  8.64it/s, v_num=7030, train_loss_step=0.0973, val_loss=0.594, train_loss_epoch=0.150]Monitored metric val_loss did not improve in the last 10 records. Best score: 0.419. Signaling Trainer to stop.
+Epoch 12: 100%|████████████████████████| 433/433 [00:50<00:00,  8.64it/s, v_num=7030, train_loss_step=0.0973, val_loss=0.594, train_loss_epoch=0.150]
+Best checkpoint path: /home/e260086/BioFoundation-femba-tiny-ptq/results/finetune/fp32/checkpoints/FEMBA_tiny_finetune_fp32/FEMBA_tiny_finetune_fp32_04_11_12-50-19.977030/epoch=2-step=1299.ckpt
+Best model score: 0.41877877712249756
+===> Start validation
+Restoring states from the checkpoint path at /home/e260086/BioFoundation-femba-tiny-ptq/results/finetune/fp32/checkpoints/FEMBA_tiny_finetune_fp32/FEMBA_tiny_finetune_fp32_04_11_12-50-19.977030/epoch=2-step=1299.ckpt
+/home/e260086/.conda/envs/biofoundation/lib/python3.11/site-packages/lightning_fabric/utilities/cloud_io.py:73: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Loaded model weights from the checkpoint at /home/e260086/BioFoundation-femba-tiny-ptq/results/finetune/fp32/checkpoints/FEMBA_tiny_finetune_fp32/FEMBA_tiny_finetune_fp32_04_11_12-50-19.977030/epoch=2-step=1299.ckpt
+Validation DataLoader 0: 100%|███████████████████████████████████████████████████████████████████████████████████████| 51/51 [00:02<00:00, 24.72it/s]
+[epoch 13] train_loss=NA val_loss=0.418779 val_AUROC=0.902238 val_F1=0.815602
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃      Validate metric       ┃        DataLoader 0        ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│      val_BinaryAUROC       │     0.9022376537322998     │
+│     val_BinaryAccuracy     │     0.8109243512153625     │
+│ val_BinaryAveragePrecision │     0.9037904143333435     │
+│    val_BinaryCohenKappa    │     0.6231329441070557     │
+│     val_BinaryF1Score      │     0.8156017661094666     │
+│    val_BinaryPrecision     │     0.8695793151855469     │
+│    val_MulticlassRecall    │     0.8151249885559082     │
+│          val_loss          │    0.41877877712249756     │
+└────────────────────────────┴────────────────────────────┘
+Destroying process group...
+Destroyed process group.
+Re-instantiating LightningDataModule for evaluation...
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+===> Start testing
+💡 Tip: For seamless cloud uploads and versioning, try installing [litmodels](https://pypi.org/project/litmodels/) to enable LitModelCheckpoint, which syncs automatically with the Lightning model registry.
+Restoring states from the checkpoint path at /home/e260086/BioFoundation-femba-tiny-ptq/results/finetune/fp32/checkpoints/FEMBA_tiny_finetune_fp32/FEMBA_tiny_finetune_fp32_04_11_12-50-19.977030/epoch=2-step=1299.ckpt
+/home/e260086/.conda/envs/biofoundation/lib/python3.11/site-packages/pytorch_lightning/trainer/call.py:283: Be aware that when using `ckpt_path`, callbacks used to create the checkpoint need to be provided during `Trainer` instantiation. Please add the following callbacks: ["ModelCheckpoint{'monitor': 'val_loss', 'mode': 'min', 'every_n_train_steps': 0, 'every_n_epochs': 1, 'train_time_interval': None}", "EarlyStopping{'monitor': 'val_loss', 'mode': 'min'}"].
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Loaded model weights from the checkpoint at /home/e260086/BioFoundation-femba-tiny-ptq/results/finetune/fp32/checkpoints/FEMBA_tiny_finetune_fp32/FEMBA_tiny_finetune_fp32_04_11_12-50-19.977030/epoch=2-step=1299.ckpt
+/home/e260086/.conda/envs/biofoundation/lib/python3.11/site-packages/pytorch_lightning/core/module.py:522: You called `self.log('test_loss', ...,
+logger=True)` but have no logger configured. You can enable one by doing `Trainer(logger=ALogger(...))`
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃         Test metric         ┃        DataLoader 0         ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│      test_BinaryAUROC       │     0.9096417427062988      │
+│     test_BinaryAccuracy     │     0.8370544910430908      │
+│ test_BinaryAveragePrecision │     0.9321473240852356      │
+│    test_BinaryCohenKappa    │     0.6761482954025269      │
+│     test_BinaryF1Score      │     0.8377295732498169      │
+│    test_BinaryPrecision     │     0.9097180366516113      │
+│    test_MulticlassRecall    │     0.8425986170768738      │
+│          test_loss          │     0.3993009030818939      │
+└─────────────────────────────┴─────────────────────────────┘
+Testing ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 57/57 0:00:02 • 0:00:00 23.63it/s

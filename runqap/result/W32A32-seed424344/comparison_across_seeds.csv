@@ -1,0 +1,2 @@
+﻿config,n_seeds,n_folds_per_seed,macro_auroc_ovr_seed_mean,macro_auroc_ovr_seed_std,macro_ap_ovr_seed_mean,macro_ap_ovr_seed_std,balanced_accuracy_seed_mean,balanced_accuracy_seed_std,macro_f1_seed_mean,macro_f1_seed_std,accuracy_seed_mean,accuracy_seed_std
+W32A32,3,4,0.7766993083526893,0.041219375280514114,0.6797375884091084,0.03362785778780269,0.5608288436233839,0.029664545111443126,0.49551605689535516,0.04518898113228603,0.5293312869925773,0.038502018076473715

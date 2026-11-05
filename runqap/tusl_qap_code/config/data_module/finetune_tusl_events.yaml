@@ -1,0 +1,19 @@
+# @package _global_
+data_module:
+  _target_: data_module.finetune_data_module.FinetuneDataModule
+  name: tusl_events
+  cfg:
+    num_workers: ${num_workers}
+    batch_size: ${batch_size}
+  train:
+    _target_: datasets.hdf5_dataset.HDF5Loader
+    hdf5_file: ${env:DATA_PATH}/train.h5
+    use_cache: False
+  val:
+    _target_: datasets.hdf5_dataset.HDF5Loader
+    hdf5_file: ${env:DATA_PATH}/val.h5
+    use_cache: False
+  test:
+    _target_: datasets.hdf5_dataset.HDF5Loader
+    hdf5_file: ${env:DATA_PATH}/test.h5
+    use_cache: False

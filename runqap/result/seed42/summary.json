@@ -1,0 +1,461 @@
+{
+  "configs": [
+    "W4A32",
+    "W4A8",
+    "W8A32",
+    "W8A8",
+    "W4A4"
+  ],
+  "folds": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "seeds": [
+    42
+  ],
+  "note": "Fold std and seed std are separate; only the test-pool subjects have held-out predictions.",
+  "details": {
+    "W4A32_seed42": {
+      "folds": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fold_summary": {
+        "config": "W4A32",
+        "seed": 42,
+        "weight_bits": 4,
+        "act_bits": 0,
+        "act_percentile": null,
+        "n_folds": 4,
+        "n_test_subjects": 24,
+        "n_test_events": 153,
+        "macro_auroc_ovr_fold_mean": 0.7475577608310721,
+        "macro_auroc_ovr_fold_std": 0.07591687784555594,
+        "macro_ap_ovr_fold_mean": 0.6489332415853504,
+        "macro_ap_ovr_fold_std": 0.10041972073890838,
+        "balanced_accuracy_fold_mean": 0.5596928335074887,
+        "balanced_accuracy_fold_std": 0.07410495817660465,
+        "macro_f1_fold_mean": 0.47683326706123574,
+        "macro_f1_fold_std": 0.12806792905930722,
+        "accuracy_fold_mean": 0.5117703533026113,
+        "accuracy_fold_std": 0.1136651057507212
+      },
+      "pooled_held_out_events": {
+        "n": 153,
+        "accuracy": 0.5032679738562091,
+        "balanced_accuracy": 0.5069754926312303,
+        "macro_f1": 0.4968228130463616,
+        "macro_auroc_ovr": 0.5999657708587459,
+        "macro_ap_ovr": 0.5025016919762889,
+        "cross_entropy": 1.0478643353355908,
+        "confusion_matrix": [
+          [
+            26,
+            24,
+            11
+          ],
+          [
+            6,
+            17,
+            21
+          ],
+          [
+            4,
+            10,
+            34
+          ]
+        ],
+        "class_order": [
+          "bckg",
+          "seiz",
+          "slow"
+        ],
+        "per_class": {
+          "bckg": {
+            "label": 0,
+            "support": 61,
+            "auroc_ovr": 0.589807555238774,
+            "ap_ovr": 0.6178901426838596,
+            "recall": 0.4262295081967213,
+            "precision": 0.7222222222222222,
+            "f1": 0.5360824742268041
+          },
+          "seiz": {
+            "label": 1,
+            "support": 44,
+            "auroc_ovr": 0.53628023352794,
+            "ap_ovr": 0.3784266615595109,
+            "recall": 0.38636363636363635,
+            "precision": 0.3333333333333333,
+            "f1": 0.35789473684210527
+          },
+          "slow": {
+            "label": 2,
+            "support": 48,
+            "auroc_ovr": 0.6738095238095239,
+            "ap_ovr": 0.5111882716854963,
+            "recall": 0.7083333333333334,
+            "precision": 0.5151515151515151,
+            "f1": 0.5964912280701754
+          }
+        }
+      }
+    },
+    "W4A8_seed42": {
+      "folds": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fold_summary": {
+        "config": "W4A8",
+        "seed": 42,
+        "weight_bits": 4,
+        "act_bits": 8,
+        "act_percentile": 99.9,
+        "n_folds": 4,
+        "n_test_subjects": 24,
+        "n_test_events": 153,
+        "macro_auroc_ovr_fold_mean": 0.8664319161027917,
+        "macro_auroc_ovr_fold_std": 0.05443376141584066,
+        "macro_ap_ovr_fold_mean": 0.7841620727963592,
+        "macro_ap_ovr_fold_std": 0.11219198406842097,
+        "balanced_accuracy_fold_mean": 0.7092457789656066,
+        "balanced_accuracy_fold_std": 0.1003796357088229,
+        "macro_f1_fold_mean": 0.6574796964434473,
+        "macro_f1_fold_std": 0.17354454771932107,
+        "accuracy_fold_mean": 0.6650365763268989,
+        "accuracy_fold_std": 0.1632283496228703
+      },
+      "pooled_held_out_events": {
+        "n": 153,
+        "accuracy": 0.6405228758169934,
+        "balanced_accuracy": 0.6637584865043881,
+        "macro_f1": 0.6361936496290862,
+        "macro_auroc_ovr": 0.7887875868101727,
+        "macro_ap_ovr": 0.7335525409626741,
+        "cross_entropy": 0.9917654949696005,
+        "confusion_matrix": [
+          [
+            25,
+            15,
+            21
+          ],
+          [
+            6,
+            32,
+            6
+          ],
+          [
+            4,
+            3,
+            41
+          ]
+        ],
+        "class_order": [
+          "bckg",
+          "seiz",
+          "slow"
+        ],
+        "per_class": {
+          "bckg": {
+            "label": 0,
+            "support": 61,
+            "auroc_ovr": 0.6464718460441911,
+            "ap_ovr": 0.669243685394357,
+            "recall": 0.4098360655737705,
+            "precision": 0.7142857142857143,
+            "f1": 0.5208333333333334
+          },
+          "seiz": {
+            "label": 1,
+            "support": 44,
+            "auroc_ovr": 0.8452877397831526,
+            "ap_ovr": 0.812737115861767,
+            "recall": 0.7272727272727273,
+            "precision": 0.64,
+            "f1": 0.6808510638297872
+          },
+          "slow": {
+            "label": 2,
+            "support": 48,
+            "auroc_ovr": 0.8746031746031746,
+            "ap_ovr": 0.7186768216318983,
+            "recall": 0.8541666666666666,
+            "precision": 0.6029411764705882,
+            "f1": 0.7068965517241379
+          }
+        }
+      }
+    },
+    "W8A32_seed42": {
+      "folds": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fold_summary": {
+        "config": "W8A32",
+        "seed": 42,
+        "weight_bits": 8,
+        "act_bits": 0,
+        "act_percentile": null,
+        "n_folds": 4,
+        "n_test_subjects": 24,
+        "n_test_events": 153,
+        "macro_auroc_ovr_fold_mean": 0.7962105641089682,
+        "macro_auroc_ovr_fold_std": 0.06013843575509462,
+        "macro_ap_ovr_fold_mean": 0.7021368607044265,
+        "macro_ap_ovr_fold_std": 0.08597816054448928,
+        "balanced_accuracy_fold_mean": 0.58769048241031,
+        "balanced_accuracy_fold_std": 0.09088086492124155,
+        "macro_f1_fold_mean": 0.5266660982439634,
+        "macro_f1_fold_std": 0.1429520586095593,
+        "accuracy_fold_mean": 0.5528941488618908,
+        "accuracy_fold_std": 0.12103599693948243
+      },
+      "pooled_held_out_events": {
+        "n": 153,
+        "accuracy": 0.5359477124183006,
+        "balanced_accuracy": 0.5467689186951482,
+        "macro_f1": 0.5273270678200256,
+        "macro_auroc_ovr": 0.7211055854023577,
+        "macro_ap_ovr": 0.6227732467616888,
+        "cross_entropy": 0.9919095355823728,
+        "confusion_matrix": [
+          [
+            23,
+            6,
+            32
+          ],
+          [
+            3,
+            18,
+            23
+          ],
+          [
+            4,
+            3,
+            41
+          ]
+        ],
+        "class_order": [
+          "bckg",
+          "seiz",
+          "slow"
+        ],
+        "per_class": {
+          "bckg": {
+            "label": 0,
+            "support": 61,
+            "auroc_ovr": 0.6532430506058446,
+            "ap_ovr": 0.6497211560200291,
+            "recall": 0.3770491803278688,
+            "precision": 0.7666666666666667,
+            "f1": 0.5054945054945055
+          },
+          "seiz": {
+            "label": 1,
+            "support": 44,
+            "auroc_ovr": 0.8146371976647206,
+            "ap_ovr": 0.6493247781367657,
+            "recall": 0.4090909090909091,
+            "precision": 0.6666666666666666,
+            "f1": 0.5070422535211268
+          },
+          "slow": {
+            "label": 2,
+            "support": 48,
+            "auroc_ovr": 0.6954365079365079,
+            "ap_ovr": 0.5692738061282713,
+            "recall": 0.8541666666666666,
+            "precision": 0.4270833333333333,
+            "f1": 0.5694444444444444
+          }
+        }
+      }
+    },
+    "W8A8_seed42": {
+      "folds": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fold_summary": {
+        "config": "W8A8",
+        "seed": 42,
+        "weight_bits": 8,
+        "act_bits": 8,
+        "act_percentile": 99.9,
+        "n_folds": 4,
+        "n_test_subjects": 24,
+        "n_test_events": 153,
+        "macro_auroc_ovr_fold_mean": 0.8614573237046722,
+        "macro_auroc_ovr_fold_std": 0.06335544540358767,
+        "macro_ap_ovr_fold_mean": 0.7719932962506967,
+        "macro_ap_ovr_fold_std": 0.12568254655113528,
+        "balanced_accuracy_fold_mean": 0.7130452681099233,
+        "balanced_accuracy_fold_std": 0.10950989331991301,
+        "macro_f1_fold_mean": 0.6640835439967221,
+        "macro_f1_fold_std": 0.1708999546280654,
+        "accuracy_fold_mean": 0.6704460861718926,
+        "accuracy_fold_std": 0.1628966462640558
+      },
+      "pooled_held_out_events": {
+        "n": 153,
+        "accuracy": 0.6470588235294118,
+        "balanced_accuracy": 0.6671116906772645,
+        "macro_f1": 0.6444037630307653,
+        "macro_auroc_ovr": 0.788236811426307,
+        "macro_ap_ovr": 0.7259885946009031,
+        "cross_entropy": 0.9969978730089467,
+        "confusion_matrix": [
+          [
+            27,
+            15,
+            19
+          ],
+          [
+            7,
+            31,
+            6
+          ],
+          [
+            5,
+            2,
+            41
+          ]
+        ],
+        "class_order": [
+          "bckg",
+          "seiz",
+          "slow"
+        ],
+        "per_class": {
+          "bckg": {
+            "label": 0,
+            "support": 61,
+            "auroc_ovr": 0.6498574483250178,
+            "ap_ovr": 0.6574813095939585,
+            "recall": 0.4426229508196721,
+            "precision": 0.6923076923076923,
+            "f1": 0.54
+          },
+          "seiz": {
+            "label": 1,
+            "support": 44,
+            "auroc_ovr": 0.835487906588824,
+            "ap_ovr": 0.8012175233135354,
+            "recall": 0.7045454545454546,
+            "precision": 0.6458333333333334,
+            "f1": 0.6739130434782609
+          },
+          "slow": {
+            "label": 2,
+            "support": 48,
+            "auroc_ovr": 0.8793650793650793,
+            "ap_ovr": 0.7192669508952154,
+            "recall": 0.8541666666666666,
+            "precision": 0.6212121212121212,
+            "f1": 0.7192982456140351
+          }
+        }
+      }
+    },
+    "W4A4_seed42": {
+      "folds": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "fold_summary": {
+        "config": "W4A4",
+        "seed": 42,
+        "weight_bits": 4,
+        "act_bits": 4,
+        "act_percentile": 95.0,
+        "n_folds": 4,
+        "n_test_subjects": 24,
+        "n_test_events": 153,
+        "macro_auroc_ovr_fold_mean": 0.8497258754227753,
+        "macro_auroc_ovr_fold_std": 0.05407769199135975,
+        "macro_ap_ovr_fold_mean": 0.768576487854543,
+        "macro_ap_ovr_fold_std": 0.09330379769719994,
+        "balanced_accuracy_fold_mean": 0.7112201535692915,
+        "balanced_accuracy_fold_std": 0.11011410439747173,
+        "macro_f1_fold_mean": 0.6770966488550969,
+        "macro_f1_fold_std": 0.14884474922930765,
+        "accuracy_fold_mean": 0.6850831963735189,
+        "accuracy_fold_std": 0.15086537106171333
+      },
+      "pooled_held_out_events": {
+        "n": 153,
+        "accuracy": 0.6666666666666666,
+        "balanced_accuracy": 0.6847677595628415,
+        "macro_f1": 0.66859305125559,
+        "macro_auroc_ovr": 0.7747630391989301,
+        "macro_ap_ovr": 0.7084558014530303,
+        "cross_entropy": 1.0515077240003823,
+        "confusion_matrix": [
+          [
+            30,
+            11,
+            20
+          ],
+          [
+            4,
+            33,
+            7
+          ],
+          [
+            7,
+            2,
+            39
+          ]
+        ],
+        "class_order": [
+          "bckg",
+          "seiz",
+          "slow"
+        ],
+        "per_class": {
+          "bckg": {
+            "label": 0,
+            "support": 61,
+            "auroc_ovr": 0.6450463292943692,
+            "ap_ovr": 0.6439773094405975,
+            "recall": 0.4918032786885246,
+            "precision": 0.7317073170731707,
+            "f1": 0.5882352941176471
+          },
+          "seiz": {
+            "label": 1,
+            "support": 44,
+            "auroc_ovr": 0.8294412010008341,
+            "ap_ovr": 0.8243950720579958,
+            "recall": 0.75,
+            "precision": 0.717391304347826,
+            "f1": 0.7333333333333333
+          },
+          "slow": {
+            "label": 2,
+            "support": 48,
+            "auroc_ovr": 0.8498015873015873,
+            "ap_ovr": 0.6569950228604978,
+            "recall": 0.8125,
+            "precision": 0.5909090909090909,
+            "f1": 0.6842105263157895
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,460 @@
+{
+  "raw_root": "D:\\Code\\6008-AY26S1-62-SPML\\data\\TUSL\\v2.0.1\\edf",
+  "split_root": "D:\\Code\\6008-AY26S1-62-SPML\\FEMBA-formal-handover-20261026\\tusl-events-20261026-v2",
+  "raw_events": 300,
+  "raw_subjects": 38,
+  "raw_label_counts": {
+    "0": 100,
+    "2": 100,
+    "1": 100
+  },
+  "protocol": "v2-validation",
+  "folds": [
+    {
+      "fold": 0,
+      "splits": {
+        "train": {
+          "subjects": 27,
+          "recordings": 76,
+          "events": 197,
+          "windows": 394,
+          "label_counts_windows": {
+            "0": 98,
+            "2": 138,
+            "1": 158
+          },
+          "shape": [
+            22,
+            1280
+          ],
+          "subject_ids": [
+            "aaaaaaju",
+            "aaaaaalq",
+            "aaaaaasy",
+            "aaaaabiw",
+            "aaaaachj",
+            "aaaaadsz",
+            "aaaaaedy",
+            "aaaaaegi",
+            "aaaaaelb",
+            "aaaaagqb",
+            "aaaaaiat",
+            "aaaaajns",
+            "aaaaajqo",
+            "aaaaajrj",
+            "aaaaakbz",
+            "aaaaalhf",
+            "aaaaamhb",
+            "aaaaammu",
+            "aaaaamoa",
+            "aaaaamyc",
+            "aaaaanog",
+            "aaaaaogd",
+            "aaaaapas",
+            "aaaaapkv",
+            "aaaaaplb",
+            "aaaaapnl",
+            "aaaaapqh"
+          ],
+          "sha256_verified": true
+        },
+        "val": {
+          "subjects": 8,
+          "recordings": 13,
+          "events": 44,
+          "windows": 88,
+          "label_counts_windows": {
+            "1": 22,
+            "0": 40,
+            "2": 26
+          },
+          "shape": [
+            22,
+            1280
+          ],
+          "subject_ids": [
+            "aaaaafwz",
+            "aaaaagcs",
+            "aaaaaike",
+            "aaaaajqb",
+            "aaaaaltw",
+            "aaaaamtj",
+            "aaaaaouk",
+            "aaaaapks"
+          ],
+          "sha256_verified": true
+        },
+        "test": {
+          "subjects": 3,
+          "recordings": 23,
+          "events": 55,
+          "windows": 110,
+          "label_counts_windows": {
+            "1": 20,
+            "0": 58,
+            "2": 32
+          },
+          "shape": [
+            22,
+            1280
+          ],
+          "subject_ids": [
+            "aaaaabms",
+            "aaaaanrc",
+            "aaaaaogk"
+          ],
+          "sha256_verified": true
+        }
+      },
+      "subject_overlap": {
+        "train_val": [],
+        "train_test": [],
+        "val_test": []
+      },
+      "recording_overlap": {
+        "train_val": [],
+        "train_test": [],
+        "val_test": []
+      }
+    },
+    {
+      "fold": 1,
+      "splits": {
+        "train": {
+          "subjects": 21,
+          "recordings": 83,
+          "events": 218,
+          "windows": 436,
+          "label_counts_windows": {
+            "0": 150,
+            "2": 144,
+            "1": 142
+          },
+          "shape": [
+            22,
+            1280
+          ],
+          "subject_ids": [
+            "aaaaaaju",
+            "aaaaaasy",
+            "aaaaabiw",
+            "aaaaabms",
+            "aaaaaegi",
+            "aaaaafwz",
+            "aaaaaiat",
+            "aaaaajns",
+            "aaaaajqo",
+            "aaaaajrj",
+            "aaaaakbz",
+            "aaaaaltw",
+            "aaaaamhb",
+            "aaaaamoa",
+            "aaaaamyc",
+            "aaaaanog",
+            "aaaaanrc",
+            "aaaaaogd",
+            "aaaaapas",
+            "aaaaapks",
+            "aaaaapkv"
+          ],
+          "sha256_verified": true
+        },
+        "val": {
+          "subjects": 9,
+          "recordings": 13,
+          "events": 39,
+          "windows": 78,
+          "label_counts_windows": {
+            "1": 32,
+            "0": 20,
+            "2": 26
+          },
+          "shape": [
+            22,
+            1280
+          ],
+          "subject_ids": [
+            "aaaaaalq",
+            "aaaaaelb",
+            "aaaaaike",
+            "aaaaajqb",
+            "aaaaalhf",
+            "aaaaammu",
+            "aaaaaogk",
+            "aaaaaouk",
+            "aaaaapnl"
+          ],
+          "sha256_verified": true
+        },
+        "test": {
+          "subjects": 8,
+          "recordings": 16,
+          "events": 39,
+          "windows": 78,
+          "label_counts_windows": {
+            "1": 26,
+            "2": 26,
+            "0": 26
+          },
+          "shape": [
+            22,
+            1280
+          ],
+          "subject_ids": [
+            "aaaaachj",
+            "aaaaadsz",
+            "aaaaaedy",
+            "aaaaagcs",
+            "aaaaagqb",
+            "aaaaamtj",
+            "aaaaaplb",
+            "aaaaapqh"
+          ],
+          "sha256_verified": true
+        }
+      },
+      "subject_overlap": {
+        "train_val": [],
+        "train_test": [],
+        "val_test": []
+      },
+      "recording_overlap": {
+        "train_val": [],
+        "train_test": [],
+        "val_test": []
+      }
+    },
+    {
+      "fold": 2,
+      "splits": {
+        "train": {
+          "subjects": 23,
+          "recordings": 89,
+          "events": 231,
+          "windows": 462,
+          "label_counts_windows": {
+            "0": 152,
+            "2": 152,
+            "1": 158
+          },
+          "shape": [
+            22,
+            1280
+          ],
+          "subject_ids": [
+            "aaaaaaju",
+            "aaaaaasy",
+            "aaaaabiw",
+            "aaaaabms",
+            "aaaaadsz",
+            "aaaaaedy",
+            "aaaaaegi",
+            "aaaaaiat",
+            "aaaaaike",
+            "aaaaajns",
+            "aaaaajqo",
+            "aaaaajrj",
+            "aaaaakbz",
+            "aaaaamhb",
+            "aaaaamoa",
+            "aaaaamyc",
+            "aaaaanog",
+            "aaaaanrc",
+            "aaaaaogd",
+            "aaaaaogk",
+            "aaaaapas",
+            "aaaaapks",
+            "aaaaaplb"
+          ],
+          "sha256_verified": true
+        },
+        "val": {
+          "subjects": 8,
+          "recordings": 12,
+          "events": 34,
+          "windows": 68,
+          "label_counts_windows": {
+            "1": 22,
+            "2": 22,
+            "0": 24
+          },
+          "shape": [
+            22,
+            1280
+          ],
+          "subject_ids": [
+            "aaaaaalq",
+            "aaaaachj",
+            "aaaaagcs",
+            "aaaaagqb",
+            "aaaaajqb",
+            "aaaaalhf",
+            "aaaaamtj",
+            "aaaaapqh"
+          ],
+          "sha256_verified": true
+        },
+        "test": {
+          "subjects": 7,
+          "recordings": 11,
+          "events": 31,
+          "windows": 62,
+          "label_counts_windows": {
+            "0": 20,
+            "1": 20,
+            "2": 22
+          },
+          "shape": [
+            22,
+            1280
+          ],
+          "subject_ids": [
+            "aaaaaelb",
+            "aaaaafwz",
+            "aaaaaltw",
+            "aaaaammu",
+            "aaaaaouk",
+            "aaaaapkv",
+            "aaaaapnl"
+          ],
+          "sha256_verified": true
+        }
+      },
+      "subject_overlap": {
+        "train_val": [],
+        "train_test": [],
+        "val_test": []
+      },
+      "recording_overlap": {
+        "train_val": [],
+        "train_test": [],
+        "val_test": []
+      }
+    },
+    {
+      "fold": 3,
+      "splits": {
+        "train": {
+          "subjects": 24,
+          "recordings": 86,
+          "events": 221,
+          "windows": 442,
+          "label_counts_windows": {
+            "0": 148,
+            "2": 140,
+            "1": 154
+          },
+          "shape": [
+            22,
+            1280
+          ],
+          "subject_ids": [
+            "aaaaaaju",
+            "aaaaabiw",
+            "aaaaabms",
+            "aaaaachj",
+            "aaaaadsz",
+            "aaaaaegi",
+            "aaaaaelb",
+            "aaaaafwz",
+            "aaaaaiat",
+            "aaaaajns",
+            "aaaaajqo",
+            "aaaaajrj",
+            "aaaaakbz",
+            "aaaaaltw",
+            "aaaaamhb",
+            "aaaaamoa",
+            "aaaaamyc",
+            "aaaaanog",
+            "aaaaanrc",
+            "aaaaaogd",
+            "aaaaapas",
+            "aaaaapkv",
+            "aaaaaplb",
+            "aaaaapnl"
+          ],
+          "sha256_verified": true
+        },
+        "val": {
+          "subjects": 8,
+          "recordings": 15,
+          "events": 47,
+          "windows": 94,
+          "label_counts_windows": {
+            "1": 24,
+            "0": 30,
+            "2": 40
+          },
+          "shape": [
+            22,
+            1280
+          ],
+          "subject_ids": [
+            "aaaaaedy",
+            "aaaaagcs",
+            "aaaaagqb",
+            "aaaaammu",
+            "aaaaamtj",
+            "aaaaaogk",
+            "aaaaaouk",
+            "aaaaapqh"
+          ],
+          "sha256_verified": true
+        },
+        "test": {
+          "subjects": 6,
+          "recordings": 11,
+          "events": 28,
+          "windows": 56,
+          "label_counts_windows": {
+            "1": 22,
+            "0": 18,
+            "2": 16
+          },
+          "shape": [
+            22,
+            1280
+          ],
+          "subject_ids": [
+            "aaaaaalq",
+            "aaaaaasy",
+            "aaaaaike",
+            "aaaaajqb",
+            "aaaaalhf",
+            "aaaaapks"
+          ],
+          "sha256_verified": true
+        }
+      },
+      "subject_overlap": {
+        "train_val": [],
+        "train_test": [],
+        "val_test": []
+      },
+      "recording_overlap": {
+        "train_val": [],
+        "train_test": [],
+        "val_test": []
+      }
+    }
+  ],
+  "usable_events": 296,
+  "usable_windows": 592,
+  "usable_subjects": 38,
+  "always_train_subjects": 14,
+  "test_pool_subjects": 24,
+  "test_pool_events": 153,
+  "excluded_conflicting_events": [
+    "aaaaabiw_s017_t000_01",
+    "aaaaabiw_s017_t000_02",
+    "aaaaaouk_s001_t000_01",
+    "aaaaaouk_s001_t000_03"
+  ],
+  "all_checks_passed": true,
+  "label_map": {
+    "bckg": 0,
+    "seiz": 1,
+    "slow": 2
+  }
+}
