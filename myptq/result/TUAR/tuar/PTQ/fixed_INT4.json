@@ -1,0 +1,44 @@
+{
+  "W4A32": {
+    "finetune_precision": "fp32",
+    "case": "w4a32_block_mse_73755ebc46",
+    "checkpoint": "/workspace/results/TUAR_rerun/fp32/ptq/sweep/w4a32_block_mse_73755ebc46/myptq.ckpt",
+    "validation_auroc": 0.9177480067810743,
+    "validation_average_precision": 0.8889490894278568,
+    "validation_loss": 0.4392766014249205,
+    "test_metrics": {
+      "samples": 7709,
+      "auroc": 0.8628806348173498,
+      "average_precision": 0.86181996691139,
+      "accuracy": 0.7403035413153457,
+      "balanced_accuracy": 0.7369625959683723,
+      "f1": 0.7816317626527051,
+      "ece_15_bins": 0.0789993363566581,
+      "loss": 0.5314534102070764,
+      "score_definition": "float64(z1)-float64(z0); threshold=0",
+      "auroc_legacy_positive_logit": 0.8629853024905856
+    },
+    "test_delta_auroc_pp_vs_float": -1.8554154629940256
+  },
+  "W4A8": {
+    "finetune_precision": "bf16",
+    "case": "w4a8_symmetric_mse_efbfe55ffa",
+    "checkpoint": "/workspace/results/TUAR_rerun/bf16/ptq/sweep/w4a8_symmetric_mse_efbfe55ffa/myptq.ckpt",
+    "validation_auroc": 0.4796173988694157,
+    "validation_average_precision": 0.3609515136819257,
+    "validation_loss": 3.2521433364771544,
+    "test_metrics": {
+      "samples": 7709,
+      "auroc": 0.5705360466174801,
+      "average_precision": 0.574816190437491,
+      "accuracy": 0.508496562459463,
+      "balanced_accuracy": 0.49903610802431064,
+      "f1": 0.6735590591884207,
+      "ece_15_bins": 0.4654791590460569,
+      "loss": 2.2206017103466458,
+      "score_definition": "float64(z1)-float64(z0); threshold=0",
+      "auroc_legacy_positive_logit": 0.570444037369827
+    },
+    "test_delta_auroc_pp_vs_float": -32.27461538585844
+  }
+}

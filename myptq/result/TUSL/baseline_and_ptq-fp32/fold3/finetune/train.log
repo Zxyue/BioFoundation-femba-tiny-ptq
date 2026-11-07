@@ -1,0 +1,447 @@
+/workspace/run_train.py:205: Hydra14MigrationWarning: 
+version_base="1.1" selects Hydra 1.1 compatibility behavior.
+Hydra 1.4 will remove this compatibility behavior.
+Before upgrading to Hydra 1.4, set version_base="1.3" and test your application.
+See https://hydra.cc/docs/upgrades/1.3_to_1.4/prepare_for_1_4/ for preparation instructions.
+  @hydra.main(config_path="./config", config_name="defaults", version_base="1.1")
+/root/.pyenv/versions/3.11.1/lib/python3.11/site-packages/hydra/_internal/hydra.py:119: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+See https://hydra.cc/docs/1.2/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+  ret = run_job(
+PyTorch-Lightning Version: 2.6.6
+tag: tusl_events_v2_fold3_fp32
+gpus: 1
+num_nodes: 1
+num_workers: 0
+batch_size: 32
+seed: 42
+resume: false
+pretrained_checkpoint: null
+load_state_dict: false
+training: true
+print_model: true
+find_unused_parameters: false
+model_checkpoint:
+  save_last: true
+  save_top_k: 1
+  monitor: val_loss
+  mode: min
+callbacks:
+  lr_monitor:
+    _target_: pytorch_lightning.callbacks.LearningRateMonitor
+    logging_interval: step
+  progress_bar:
+    _target_: pytorch_lightning.callbacks.TQDMProgressBar
+    refresh_rate: 50
+  epoch_summary:
+    _target_: util.epoch_summary.EpochSummary
+  early_stopping:
+    _target_: pytorch_lightning.callbacks.EarlyStopping
+    monitor: val_loss
+    patience: 10
+    mode: min
+    verbose: true
+io:
+  version: 0
+  base_output_path: /workspace/results/tusl-events-v2-fp32/fold3/finetune/tb_logs
+  checkpoint_dirpath: /workspace/results/tusl-events-v2-fp32/fold3/finetune/checkpoints
+trainer:
+  num_nodes: 1
+  devices: 1
+  strategy: auto
+  max_epochs: 30
+  max_steps: 500000
+  benchmark: true
+  log_every_n_steps: 50
+  check_val_every_n_epoch: 1
+  val_check_interval: null
+  num_sanity_val_steps: 0
+  accelerator: gpu
+  precision: 32-true
+optimizer:
+  optim: AdamW
+  lr: 0.0005
+  betas:
+  - 0.9
+  - 0.999
+  weight_decay: 0.5
+masking:
+  patch_size:
+  - 2
+  - 16
+  masking_ratio: 0.6
+input_normalization:
+  normalize: true
+  quartile_normalization_lower_val: -20
+  quartile_normalization_upper_val: 20
+data_module:
+  _target_: data_module.finetune_data_module.FinetuneDataModule
+  name: eeg
+  cfg:
+    num_workers: 0
+    batch_size: 32
+  train:
+    _target_: datasets.hdf5_dataset.HDF5Loader
+    hdf5_file: /workspace/EEGdata/tusl-events-20261026-v2/fold3/train.h5
+  val:
+    _target_: datasets.hdf5_dataset.HDF5Loader
+    hdf5_file: /workspace/EEGdata/tusl-events-20261026-v2/fold3/val.h5
+  test:
+    _target_: datasets.hdf5_dataset.HDF5Loader
+    hdf5_file: /workspace/EEGdata/tusl-events-20261026-v2/fold3/test.h5
+task:
+  _target_: tasks.finetune_task.FinetuneTask
+scheduler:
+  _target_: schedulers.cosine.CosineLRSchedulerWrapper
+  trainer:
+    num_nodes: 1
+    devices: 1
+    strategy: auto
+    max_epochs: 30
+    max_steps: 500000
+    benchmark: true
+    log_every_n_steps: 50
+    check_val_every_n_epoch: 1
+    val_check_interval: null
+    num_sanity_val_steps: 0
+    accelerator: gpu
+    precision: 32-true
+  warmup_epochs: 10
+  min_lr: 2.5e-06
+  warmup_lr_init: 2.5e-07
+  t_in_epochs: false
+model:
+  _target_: models.FEMBA.FEMBA
+  seq_length: 1280
+  num_channels: 22
+  exp: 4
+  num_classes: 3
+  num_blocks: 2
+  embed_dim: 35
+  classification_type: mcc
+criterion:
+  _target_: torch.nn.CrossEntropyLoss
+final_validate: true
+final_test: false
+finetune_pretrained: true
+layerwise_lr_decay: 0.75
+scheduler_type: cosine
+pretrained_checkpoint_path: null
+pretrained_safetensors_path: /workspace/checkpoint/FEMBA/TUSL/FEMBA_tiny_prefixed.safetensors
+finetuning:
+  freeze_layers: true
+
+Seed set to 42
+===> Loading datasets
+===> Start building model
+FinetuneTask(
+  (model): FEMBA(
+    (patch_embed): PatchEmbed(
+      (proj): Conv2d(1, 35, kernel_size=(2, 16), stride=(2, 16))
+      (norm): Identity()
+    )
+    (mamba_blocks): ModuleList(
+      (0-1): 2 x MambaWrapper(
+        (mamba_fwd): Mamba(
+          (in_proj): Linear(in_features=385, out_features=3080, bias=False)
+          (conv1d): Conv1d(1540, 1540, kernel_size=(4,), stride=(1,), padding=(3,), groups=1540)
+          (act): SiLU()
+          (x_proj): Linear(in_features=1540, out_features=57, bias=False)
+          (dt_proj): Linear(in_features=25, out_features=1540, bias=True)
+          (out_proj): Linear(in_features=1540, out_features=385, bias=False)
+        )
+        (mamba_rev): Mamba(
+          (in_proj): Linear(in_features=385, out_features=3080, bias=False)
+          (conv1d): Conv1d(1540, 1540, kernel_size=(4,), stride=(1,), padding=(3,), groups=1540)
+          (act): SiLU()
+          (x_proj): Linear(in_features=1540, out_features=57, bias=False)
+          (dt_proj): Linear(in_features=25, out_features=1540, bias=True)
+          (out_proj): Linear(in_features=1540, out_features=385, bias=False)
+        )
+      )
+    )
+    (norm_layers): ModuleList(
+      (0-1): 2 x LayerNorm((385,), eps=1e-05, elementwise_affine=True)
+    )
+    (classifier): MambaClassifier(
+      (fc1): Linear(in_features=385, out_features=256, bias=True)
+      (activation1): GELU(approximate='none')
+      (mamba_1): Mamba(
+        (in_proj): Linear(in_features=256, out_features=1024, bias=False)
+        (conv1d): Conv1d(512, 512, kernel_size=(4,), stride=(1,), padding=(3,), groups=512)
+        (act): SiLU()
+        (x_proj): Linear(in_features=512, out_features=48, bias=False)
+        (dt_proj): Linear(in_features=16, out_features=512, bias=True)
+        (out_proj): Linear(in_features=512, out_features=256, bias=False)
+      )
+      (fc3): Linear(in_features=256, out_features=3, bias=True)
+    )
+  )
+  (criterion): CrossEntropyLoss()
+  (train_label_metrics): MetricCollection(
+    (MulticlassAccuracy): MulticlassAccuracy()
+    (MulticlassRecall): MulticlassRecall()
+    (MulticlassPrecision): MulticlassPrecision()
+    (MulticlassF1Score): MulticlassF1Score()
+    (MulticlassCohenKappa): MulticlassCohenKappa(),
+    prefix=train_
+  )
+  (val_label_metrics): MetricCollection(
+    (MulticlassAccuracy): MulticlassAccuracy()
+    (MulticlassRecall): MulticlassRecall()
+    (MulticlassPrecision): MulticlassPrecision()
+    (MulticlassF1Score): MulticlassF1Score()
+    (MulticlassCohenKappa): MulticlassCohenKappa(),
+    prefix=val_
+  )
+  (test_label_metrics): MetricCollection(
+    (MulticlassAccuracy): MulticlassAccuracy()
+    (MulticlassRecall): MulticlassRecall()
+    (MulticlassPrecision): MulticlassPrecision()
+    (MulticlassF1Score): MulticlassF1Score()
+    (MulticlassCohenKappa): MulticlassCohenKappa(),
+    prefix=test_
+  )
+  (train_logit_metrics): MetricCollection(
+    (MulticlassAUROC): MulticlassAUROC()
+    (MulticlassAveragePrecision): MulticlassAveragePrecision(),
+    prefix=train_
+  )
+  (val_logit_metrics): MetricCollection(
+    (MulticlassAUROC): MulticlassAUROC()
+    (MulticlassAveragePrecision): MulticlassAveragePrecision(),
+    prefix=val_
+  )
+  (test_logit_metrics): MetricCollection(
+    (MulticlassAUROC): MulticlassAUROC()
+    (MulticlassAveragePrecision): MulticlassAveragePrecision(),
+    prefix=test_
+  )
+)
+===> Loading pretrained safetensors from /workspace/checkpoint/FEMBA/TUSL/FEMBA_tiny_prefixed.safetensors
+Loading pretrained safetensors checkpoint
+Pretrained matched keys: 43
+Missing keys: ['model.classifier.fc1.weight', 'model.classifier.fc1.bias', 'model.classifier.mamba_1.A_log', 'model.classifier.mamba_1.D', 'model.classifier.mamba_1.in_proj.weight', 'model.classifier.mamba_1.conv1d.weight', 'model.classifier.mamba_1.conv1d.bias', 'model.classifier.mamba_1.x_proj.weight', 'model.classifier.mamba_1.dt_proj.weight', 'model.classifier.mamba_1.dt_proj.bias', 'model.classifier.mamba_1.out_proj.weight', 'model.classifier.fc3.weight', 'model.classifier.fc3.bias']
+Unexpected keys: []
+Pretrained model ready.
+Checkpoint path: /workspace/results/tusl-events-v2-fp32/fold3/finetune/checkpoints/tusl_events_v2_fold3_fp32/tusl_events_v2_fold3_fp32_06_11_18-27-48.012550
+===> Checkpoint callbacks
+===> Instantiate other callbacks
+===> Instantiate trainer
+Trainer already configured with model summary callbacks: [<class 'pytorch_lightning.callbacks.model_summary.ModelSummary'>]. Skipping setting a default `ModelSummary` callback.
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+💡 Tip: For seamless cloud logging and experiment tracking, try installing [litlogger](https://pypi.org/project/litlogger/) to enable LitLogger, which logs metrics and artifacts automatically to the Lightning Experiments platform.
+===> Start training
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Loading `train_dataloader` to estimate number of stepping batches.
+/root/.pyenv/versions/3.11.1/lib/python3.11/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:434: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=27` in the `DataLoader` to improve performance.
+/root/.pyenv/versions/3.11.1/lib/python3.11/site-packages/pytorch_lightning/loops/fit_loop.py:321: The number of training batches (13) is smaller than the logging interval Trainer(log_every_n_steps=50). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.
+
+   | Name                                           | Type                       | Params | Mode  | FLOPs
+---------------------------------------------------------------------------------------------------------------
+0  | model                                          | FEMBA                      | 8.3 M  | train | 0    
+1  | model.patch_embed                              | PatchEmbed                 | 1.2 K  | train | 0    
+2  | model.patch_embed.proj                         | Conv2d                     | 1.2 K  | train | 0    
+3  | model.patch_embed.norm                         | Identity                   | 0      | train | 0    
+4  | model.mamba_blocks                             | ModuleList                 | 7.8 M  | train | 0    
+5  | model.mamba_blocks.0                           | MambaWrapper               | 3.9 M  | train | 0    
+6  | model.mamba_blocks.0.mamba_fwd                 | Mamba                      | 1.9 M  | train | 0    
+7  | model.mamba_blocks.0.mamba_rev                 | Mamba                      | 1.9 M  | train | 0    
+8  | model.mamba_blocks.1                           | MambaWrapper               | 3.9 M  | train | 0    
+9  | model.mamba_blocks.1.mamba_fwd                 | Mamba                      | 1.9 M  | train | 0    
+10 | model.mamba_blocks.1.mamba_rev                 | Mamba                      | 1.9 M  | train | 0    
+11 | model.norm_layers                              | ModuleList                 | 1.5 K  | train | 0    
+12 | model.norm_layers.0                            | LayerNorm                  | 770    | train | 0    
+13 | model.norm_layers.1                            | LayerNorm                  | 770    | train | 0    
+14 | model.classifier                               | MambaClassifier            | 537 K  | train | 0    
+15 | model.classifier.fc1                           | Linear                     | 98.8 K | train | 0    
+16 | model.classifier.activation1                   | GELU                       | 0      | train | 0    
+17 | model.classifier.mamba_1                       | Mamba                      | 437 K  | train | 0    
+18 | model.classifier.mamba_1.in_proj               | Linear                     | 262 K  | train | 0    
+19 | model.classifier.mamba_1.conv1d                | Conv1d                     | 2.6 K  | train | 0    
+20 | model.classifier.mamba_1.act                   | SiLU                       | 0      | train | 0    
+21 | model.classifier.mamba_1.x_proj                | Linear                     | 24.6 K | train | 0    
+22 | model.classifier.mamba_1.dt_proj               | Linear                     | 8.7 K  | train | 0    
+23 | model.classifier.mamba_1.out_proj              | Linear                     | 131 K  | train | 0    
+24 | model.classifier.fc3                           | Linear                     | 771    | train | 0    
+25 | criterion                                      | CrossEntropyLoss           | 0      | train | 0    
+26 | train_label_metrics                            | MetricCollection           | 0      | train | 0    
+27 | train_label_metrics.MulticlassAccuracy         | MulticlassAccuracy         | 0      | train | 0    
+28 | train_label_metrics.MulticlassRecall           | MulticlassRecall           | 0      | train | 0    
+29 | train_label_metrics.MulticlassPrecision        | MulticlassPrecision        | 0      | train | 0    
+30 | train_label_metrics.MulticlassF1Score          | MulticlassF1Score          | 0      | train | 0    
+31 | train_label_metrics.MulticlassCohenKappa       | MulticlassCohenKappa       | 0      | train | 0    
+32 | val_label_metrics                              | MetricCollection           | 0      | train | 0    
+33 | val_label_metrics.MulticlassAccuracy           | MulticlassAccuracy         | 0      | train | 0    
+34 | val_label_metrics.MulticlassRecall             | MulticlassRecall           | 0      | train | 0    
+35 | val_label_metrics.MulticlassPrecision          | MulticlassPrecision        | 0      | train | 0    
+36 | val_label_metrics.MulticlassF1Score            | MulticlassF1Score          | 0      | train | 0    
+37 | val_label_metrics.MulticlassCohenKappa         | MulticlassCohenKappa       | 0      | train | 0    
+38 | test_label_metrics                             | MetricCollection           | 0      | train | 0    
+39 | test_label_metrics.MulticlassAccuracy          | MulticlassAccuracy         | 0      | train | 0    
+40 | test_label_metrics.MulticlassRecall            | MulticlassRecall           | 0      | train | 0    
+41 | test_label_metrics.MulticlassPrecision         | MulticlassPrecision        | 0      | train | 0    
+42 | test_label_metrics.MulticlassF1Score           | MulticlassF1Score          | 0      | train | 0    
+43 | test_label_metrics.MulticlassCohenKappa        | MulticlassCohenKappa       | 0      | train | 0    
+44 | train_logit_metrics                            | MetricCollection           | 0      | train | 0    
+45 | train_logit_metrics.MulticlassAUROC            | MulticlassAUROC            | 0      | train | 0    
+46 | train_logit_metrics.MulticlassAveragePrecision | MulticlassAveragePrecision | 0      | train | 0    
+47 | val_logit_metrics                              | MetricCollection           | 0      | train | 0    
+48 | val_logit_metrics.MulticlassAUROC              | MulticlassAUROC            | 0      | train | 0    
+49 | val_logit_metrics.MulticlassAveragePrecision   | MulticlassAveragePrecision | 0      | train | 0    
+50 | test_logit_metrics                             | MetricCollection           | 0      | train | 0    
+51 | test_logit_metrics.MulticlassAUROC             | MulticlassAUROC            | 0      | train | 0    
+52 | test_logit_metrics.MulticlassAveragePrecision  | MulticlassAveragePrecision | 0      | train | 0    
+---------------------------------------------------------------------------------------------------------------
+8.3 M     Trainable params
+0         Non-trainable params
+8.3 M     Total params
+33.330    Total estimated model params size (MB)
+77        Modules in train mode
+0         Modules in eval mode
+0         Total Flops
+/root/.pyenv/versions/3.11.1/lib/python3.11/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:434: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=27` in the `DataLoader` to improve performance.
+Training: |          | 0/? [00:00<?, ?it/s]Training: |          | 0/? [00:00<?, ?it/s]Epoch 0:   0%|          | 0/13 [00:00<?, ?it/s]Epoch 0: 100%|██████████| 13/13 [00:02<00:00,  6.19it/s]Epoch 0: 100%|██████████| 13/13 [00:02<00:00,  6.19it/s, v_num=2550, train_loss_step=1.090]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 26.91it/s][A
+                                                                      [AEpoch 0: 100%|██████████| 13/13 [00:02<00:00,  5.78it/s, v_num=2550, train_loss_step=1.090, val_loss=1.100]                                                                                                           [epoch 00] train_loss=NA val_loss=1.097294 val_AUROC=NA val_F1=NA
+Epoch 0: 100%|██████████| 13/13 [00:02<00:00,  5.78it/s, v_num=2550, train_loss_step=1.090, val_loss=1.100]Epoch 0: 100%|██████████| 13/13 [00:02<00:00,  5.78it/s, v_num=2550, train_loss_step=1.090, val_loss=1.100, train_loss_epoch=1.100]Metric val_loss improved. New best score: 1.097
+Epoch 0:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=1.090, val_loss=1.100, train_loss_epoch=1.100]         Epoch 1:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=1.090, val_loss=1.100, train_loss_epoch=1.100]Epoch 1: 100%|██████████| 13/13 [00:00<00:00, 20.95it/s, v_num=2550, train_loss_step=1.090, val_loss=1.100, train_loss_epoch=1.100]Epoch 1: 100%|██████████| 13/13 [00:00<00:00, 20.82it/s, v_num=2550, train_loss_step=1.100, val_loss=1.100, train_loss_epoch=1.100]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 44.72it/s][A
+                                                                      [AEpoch 1: 100%|██████████| 13/13 [00:00<00:00, 18.40it/s, v_num=2550, train_loss_step=1.100, val_loss=1.090, train_loss_epoch=1.100]                                                                                                                                   [epoch 01] train_loss=1.099453 val_loss=1.086856 val_AUROC=NA val_F1=NA
+Epoch 1: 100%|██████████| 13/13 [00:00<00:00, 18.38it/s, v_num=2550, train_loss_step=1.100, val_loss=1.090, train_loss_epoch=1.100]Epoch 1: 100%|██████████| 13/13 [00:00<00:00, 18.35it/s, v_num=2550, train_loss_step=1.100, val_loss=1.090, train_loss_epoch=1.100]Metric val_loss improved by 0.010 >= min_delta = 0.0. New best score: 1.087
+Epoch 1:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=1.100, val_loss=1.090, train_loss_epoch=1.100]         Epoch 2:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=1.100, val_loss=1.090, train_loss_epoch=1.100]Epoch 2: 100%|██████████| 13/13 [00:00<00:00, 21.42it/s, v_num=2550, train_loss_step=1.100, val_loss=1.090, train_loss_epoch=1.100]Epoch 2: 100%|██████████| 13/13 [00:00<00:00, 21.27it/s, v_num=2550, train_loss_step=0.907, val_loss=1.090, train_loss_epoch=1.100]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 45.30it/s][A
+                                                                      [AEpoch 2: 100%|██████████| 13/13 [00:00<00:00, 18.79it/s, v_num=2550, train_loss_step=0.907, val_loss=1.020, train_loss_epoch=1.100]                                                                                                                                   [epoch 02] train_loss=1.096464 val_loss=1.017393 val_AUROC=NA val_F1=NA
+Epoch 2: 100%|██████████| 13/13 [00:00<00:00, 18.78it/s, v_num=2550, train_loss_step=0.907, val_loss=1.020, train_loss_epoch=1.100]Epoch 2: 100%|██████████| 13/13 [00:00<00:00, 18.74it/s, v_num=2550, train_loss_step=0.907, val_loss=1.020, train_loss_epoch=1.000]Metric val_loss improved by 0.069 >= min_delta = 0.0. New best score: 1.017
+Epoch 2:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.907, val_loss=1.020, train_loss_epoch=1.000]         Epoch 3:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.907, val_loss=1.020, train_loss_epoch=1.000]Epoch 3: 100%|██████████| 13/13 [00:00<00:00, 21.29it/s, v_num=2550, train_loss_step=0.907, val_loss=1.020, train_loss_epoch=1.000]Epoch 3: 100%|██████████| 13/13 [00:00<00:00, 21.16it/s, v_num=2550, train_loss_step=0.909, val_loss=1.020, train_loss_epoch=1.000]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 43.11it/s][A
+                                                                      [AEpoch 3: 100%|██████████| 13/13 [00:00<00:00, 18.60it/s, v_num=2550, train_loss_step=0.909, val_loss=0.927, train_loss_epoch=1.000]                                                                                                                                   [epoch 03] train_loss=1.002293 val_loss=0.927404 val_AUROC=NA val_F1=NA
+Epoch 3: 100%|██████████| 13/13 [00:00<00:00, 18.59it/s, v_num=2550, train_loss_step=0.909, val_loss=0.927, train_loss_epoch=1.000]Epoch 3: 100%|██████████| 13/13 [00:00<00:00, 18.55it/s, v_num=2550, train_loss_step=0.909, val_loss=0.927, train_loss_epoch=0.882]Metric val_loss improved by 0.090 >= min_delta = 0.0. New best score: 0.927
+Epoch 3:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.909, val_loss=0.927, train_loss_epoch=0.882]         Epoch 4:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.909, val_loss=0.927, train_loss_epoch=0.882]Epoch 4: 100%|██████████| 13/13 [00:00<00:00, 21.34it/s, v_num=2550, train_loss_step=0.909, val_loss=0.927, train_loss_epoch=0.882]Epoch 4: 100%|██████████| 13/13 [00:00<00:00, 21.20it/s, v_num=2550, train_loss_step=0.631, val_loss=0.927, train_loss_epoch=0.882]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 43.14it/s][A
+                                                                      [AEpoch 4: 100%|██████████| 13/13 [00:00<00:00, 18.62it/s, v_num=2550, train_loss_step=0.631, val_loss=0.990, train_loss_epoch=0.882]                                                                                                                                   [epoch 04] train_loss=0.881586 val_loss=0.990406 val_AUROC=NA val_F1=NA
+Epoch 4: 100%|██████████| 13/13 [00:00<00:00, 18.60it/s, v_num=2550, train_loss_step=0.631, val_loss=0.990, train_loss_epoch=0.882]Epoch 4: 100%|██████████| 13/13 [00:00<00:00, 18.56it/s, v_num=2550, train_loss_step=0.631, val_loss=0.990, train_loss_epoch=0.823]Epoch 4:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.631, val_loss=0.990, train_loss_epoch=0.823]         Epoch 5:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.631, val_loss=0.990, train_loss_epoch=0.823]Epoch 5: 100%|██████████| 13/13 [00:00<00:00, 21.45it/s, v_num=2550, train_loss_step=0.631, val_loss=0.990, train_loss_epoch=0.823]Epoch 5: 100%|██████████| 13/13 [00:00<00:00, 21.31it/s, v_num=2550, train_loss_step=0.917, val_loss=0.990, train_loss_epoch=0.823]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 42.96it/s][A
+                                                                      [AEpoch 5: 100%|██████████| 13/13 [00:00<00:00, 18.66it/s, v_num=2550, train_loss_step=0.917, val_loss=0.863, train_loss_epoch=0.823]                                                                                                                                   [epoch 05] train_loss=0.822882 val_loss=0.862745 val_AUROC=NA val_F1=NA
+Epoch 5: 100%|██████████| 13/13 [00:00<00:00, 18.65it/s, v_num=2550, train_loss_step=0.917, val_loss=0.863, train_loss_epoch=0.823]Epoch 5: 100%|██████████| 13/13 [00:00<00:00, 18.61it/s, v_num=2550, train_loss_step=0.917, val_loss=0.863, train_loss_epoch=0.681]Metric val_loss improved by 0.065 >= min_delta = 0.0. New best score: 0.863
+Epoch 5:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.917, val_loss=0.863, train_loss_epoch=0.681]         Epoch 6:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.917, val_loss=0.863, train_loss_epoch=0.681]Epoch 6: 100%|██████████| 13/13 [00:00<00:00, 21.29it/s, v_num=2550, train_loss_step=0.917, val_loss=0.863, train_loss_epoch=0.681]Epoch 6: 100%|██████████| 13/13 [00:00<00:00, 21.17it/s, v_num=2550, train_loss_step=0.432, val_loss=0.863, train_loss_epoch=0.681]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 43.50it/s][A
+                                                                      [AEpoch 6: 100%|██████████| 13/13 [00:00<00:00, 18.63it/s, v_num=2550, train_loss_step=0.432, val_loss=0.877, train_loss_epoch=0.681]                                                                                                                                   [epoch 06] train_loss=0.680840 val_loss=0.876651 val_AUROC=NA val_F1=NA
+Epoch 6: 100%|██████████| 13/13 [00:00<00:00, 18.61it/s, v_num=2550, train_loss_step=0.432, val_loss=0.877, train_loss_epoch=0.681]Epoch 6: 100%|██████████| 13/13 [00:00<00:00, 18.57it/s, v_num=2550, train_loss_step=0.432, val_loss=0.877, train_loss_epoch=0.545]Epoch 6:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.432, val_loss=0.877, train_loss_epoch=0.545]         Epoch 7:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.432, val_loss=0.877, train_loss_epoch=0.545]Epoch 7: 100%|██████████| 13/13 [00:00<00:00, 21.09it/s, v_num=2550, train_loss_step=0.432, val_loss=0.877, train_loss_epoch=0.545]Epoch 7: 100%|██████████| 13/13 [00:00<00:00, 20.94it/s, v_num=2550, train_loss_step=0.378, val_loss=0.877, train_loss_epoch=0.545]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 44.71it/s][A
+                                                                      [AEpoch 7: 100%|██████████| 13/13 [00:00<00:00, 18.50it/s, v_num=2550, train_loss_step=0.378, val_loss=0.725, train_loss_epoch=0.545]                                                                                                                                   [epoch 07] train_loss=0.544981 val_loss=0.724627 val_AUROC=NA val_F1=NA
+Epoch 7: 100%|██████████| 13/13 [00:00<00:00, 18.49it/s, v_num=2550, train_loss_step=0.378, val_loss=0.725, train_loss_epoch=0.545]Epoch 7: 100%|██████████| 13/13 [00:00<00:00, 18.45it/s, v_num=2550, train_loss_step=0.378, val_loss=0.725, train_loss_epoch=0.474]Metric val_loss improved by 0.138 >= min_delta = 0.0. New best score: 0.725
+Epoch 7:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.378, val_loss=0.725, train_loss_epoch=0.474]         Epoch 8:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.378, val_loss=0.725, train_loss_epoch=0.474]Epoch 8: 100%|██████████| 13/13 [00:00<00:00, 21.54it/s, v_num=2550, train_loss_step=0.378, val_loss=0.725, train_loss_epoch=0.474]Epoch 8: 100%|██████████| 13/13 [00:00<00:00, 21.42it/s, v_num=2550, train_loss_step=0.496, val_loss=0.725, train_loss_epoch=0.474]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 44.90it/s][A
+                                                                      [AEpoch 8: 100%|██████████| 13/13 [00:00<00:00, 18.88it/s, v_num=2550, train_loss_step=0.496, val_loss=0.718, train_loss_epoch=0.474]                                                                                                                                   [epoch 08] train_loss=0.473686 val_loss=0.717638 val_AUROC=NA val_F1=NA
+Epoch 8: 100%|██████████| 13/13 [00:00<00:00, 18.87it/s, v_num=2550, train_loss_step=0.496, val_loss=0.718, train_loss_epoch=0.474]Epoch 8: 100%|██████████| 13/13 [00:00<00:00, 18.84it/s, v_num=2550, train_loss_step=0.496, val_loss=0.718, train_loss_epoch=0.442]Metric val_loss improved by 0.007 >= min_delta = 0.0. New best score: 0.718
+Epoch 8:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.496, val_loss=0.718, train_loss_epoch=0.442]         Epoch 9:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.496, val_loss=0.718, train_loss_epoch=0.442]Epoch 9: 100%|██████████| 13/13 [00:00<00:00, 21.44it/s, v_num=2550, train_loss_step=0.496, val_loss=0.718, train_loss_epoch=0.442]Epoch 9: 100%|██████████| 13/13 [00:00<00:00, 21.30it/s, v_num=2550, train_loss_step=0.269, val_loss=0.718, train_loss_epoch=0.442]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 43.55it/s][A
+                                                                      [AEpoch 9: 100%|██████████| 13/13 [00:00<00:00, 18.73it/s, v_num=2550, train_loss_step=0.269, val_loss=1.180, train_loss_epoch=0.442]                                                                                                                                   [epoch 09] train_loss=0.442493 val_loss=1.182470 val_AUROC=NA val_F1=NA
+Epoch 9: 100%|██████████| 13/13 [00:00<00:00, 18.72it/s, v_num=2550, train_loss_step=0.269, val_loss=1.180, train_loss_epoch=0.442]Epoch 9: 100%|██████████| 13/13 [00:00<00:00, 18.68it/s, v_num=2550, train_loss_step=0.269, val_loss=1.180, train_loss_epoch=0.441]Epoch 9:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.269, val_loss=1.180, train_loss_epoch=0.441]         Epoch 10:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.269, val_loss=1.180, train_loss_epoch=0.441]Epoch 10: 100%|██████████| 13/13 [00:00<00:00, 21.56it/s, v_num=2550, train_loss_step=0.269, val_loss=1.180, train_loss_epoch=0.441]Epoch 10: 100%|██████████| 13/13 [00:00<00:00, 21.41it/s, v_num=2550, train_loss_step=0.315, val_loss=1.180, train_loss_epoch=0.441]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 44.61it/s][A
+                                                                      [AEpoch 10: 100%|██████████| 13/13 [00:00<00:00, 18.87it/s, v_num=2550, train_loss_step=0.315, val_loss=0.758, train_loss_epoch=0.441]                                                                                                                                    [epoch 10] train_loss=0.441403 val_loss=0.757648 val_AUROC=NA val_F1=NA
+Epoch 10: 100%|██████████| 13/13 [00:00<00:00, 18.85it/s, v_num=2550, train_loss_step=0.315, val_loss=0.758, train_loss_epoch=0.441]Epoch 10: 100%|██████████| 13/13 [00:00<00:00, 18.82it/s, v_num=2550, train_loss_step=0.315, val_loss=0.758, train_loss_epoch=0.436]Epoch 10:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.315, val_loss=0.758, train_loss_epoch=0.436]         Epoch 11:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.315, val_loss=0.758, train_loss_epoch=0.436]Epoch 11: 100%|██████████| 13/13 [00:00<00:00, 21.16it/s, v_num=2550, train_loss_step=0.315, val_loss=0.758, train_loss_epoch=0.436]Epoch 11: 100%|██████████| 13/13 [00:00<00:00, 21.03it/s, v_num=2550, train_loss_step=0.199, val_loss=0.758, train_loss_epoch=0.436]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 44.19it/s][A
+                                                                      [AEpoch 11: 100%|██████████| 13/13 [00:00<00:00, 18.54it/s, v_num=2550, train_loss_step=0.199, val_loss=0.832, train_loss_epoch=0.436]                                                                                                                                    [epoch 11] train_loss=0.435812 val_loss=0.832380 val_AUROC=NA val_F1=NA
+Epoch 11: 100%|██████████| 13/13 [00:00<00:00, 18.53it/s, v_num=2550, train_loss_step=0.199, val_loss=0.832, train_loss_epoch=0.436]Epoch 11: 100%|██████████| 13/13 [00:00<00:00, 18.50it/s, v_num=2550, train_loss_step=0.199, val_loss=0.832, train_loss_epoch=0.342]Epoch 11:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.199, val_loss=0.832, train_loss_epoch=0.342]         Epoch 12:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.199, val_loss=0.832, train_loss_epoch=0.342]Epoch 12: 100%|██████████| 13/13 [00:00<00:00, 21.77it/s, v_num=2550, train_loss_step=0.199, val_loss=0.832, train_loss_epoch=0.342]Epoch 12: 100%|██████████| 13/13 [00:00<00:00, 21.65it/s, v_num=2550, train_loss_step=0.119, val_loss=0.832, train_loss_epoch=0.342]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 44.30it/s][A
+                                                                      [AEpoch 12: 100%|██████████| 13/13 [00:00<00:00, 19.03it/s, v_num=2550, train_loss_step=0.119, val_loss=1.040, train_loss_epoch=0.342]                                                                                                                                    [epoch 12] train_loss=0.341585 val_loss=1.041482 val_AUROC=NA val_F1=NA
+Epoch 12: 100%|██████████| 13/13 [00:00<00:00, 19.02it/s, v_num=2550, train_loss_step=0.119, val_loss=1.040, train_loss_epoch=0.342]Epoch 12: 100%|██████████| 13/13 [00:00<00:00, 18.99it/s, v_num=2550, train_loss_step=0.119, val_loss=1.040, train_loss_epoch=0.264]Epoch 12:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.119, val_loss=1.040, train_loss_epoch=0.264]         Epoch 13:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.119, val_loss=1.040, train_loss_epoch=0.264]Epoch 13: 100%|██████████| 13/13 [00:00<00:00, 21.72it/s, v_num=2550, train_loss_step=0.119, val_loss=1.040, train_loss_epoch=0.264]Epoch 13: 100%|██████████| 13/13 [00:00<00:00, 21.61it/s, v_num=2550, train_loss_step=0.285, val_loss=1.040, train_loss_epoch=0.264]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 44.83it/s][A
+                                                                      [AEpoch 13: 100%|██████████| 13/13 [00:00<00:00, 19.00it/s, v_num=2550, train_loss_step=0.285, val_loss=1.080, train_loss_epoch=0.264]                                                                                                                                    [epoch 13] train_loss=0.264387 val_loss=1.077169 val_AUROC=NA val_F1=NA
+Epoch 13: 100%|██████████| 13/13 [00:00<00:00, 18.99it/s, v_num=2550, train_loss_step=0.285, val_loss=1.080, train_loss_epoch=0.264]Epoch 13: 100%|██████████| 13/13 [00:00<00:00, 18.95it/s, v_num=2550, train_loss_step=0.285, val_loss=1.080, train_loss_epoch=0.257]Epoch 13:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.285, val_loss=1.080, train_loss_epoch=0.257]         Epoch 14:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.285, val_loss=1.080, train_loss_epoch=0.257]Epoch 14: 100%|██████████| 13/13 [00:00<00:00, 21.19it/s, v_num=2550, train_loss_step=0.285, val_loss=1.080, train_loss_epoch=0.257]Epoch 14: 100%|██████████| 13/13 [00:00<00:00, 21.03it/s, v_num=2550, train_loss_step=0.234, val_loss=1.080, train_loss_epoch=0.257]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 45.21it/s][A
+                                                                      [AEpoch 14: 100%|██████████| 13/13 [00:00<00:00, 18.59it/s, v_num=2550, train_loss_step=0.234, val_loss=1.320, train_loss_epoch=0.257]                                                                                                                                    [epoch 14] train_loss=0.257219 val_loss=1.320590 val_AUROC=NA val_F1=NA
+Epoch 14: 100%|██████████| 13/13 [00:00<00:00, 18.58it/s, v_num=2550, train_loss_step=0.234, val_loss=1.320, train_loss_epoch=0.257]Epoch 14: 100%|██████████| 13/13 [00:00<00:00, 18.54it/s, v_num=2550, train_loss_step=0.234, val_loss=1.320, train_loss_epoch=0.189]Epoch 14:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.234, val_loss=1.320, train_loss_epoch=0.189]         Epoch 15:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.234, val_loss=1.320, train_loss_epoch=0.189]Epoch 15: 100%|██████████| 13/13 [00:00<00:00, 21.65it/s, v_num=2550, train_loss_step=0.234, val_loss=1.320, train_loss_epoch=0.189]Epoch 15: 100%|██████████| 13/13 [00:00<00:00, 21.49it/s, v_num=2550, train_loss_step=0.109, val_loss=1.320, train_loss_epoch=0.189]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 44.80it/s][A
+                                                                      [AEpoch 15: 100%|██████████| 13/13 [00:00<00:00, 18.92it/s, v_num=2550, train_loss_step=0.109, val_loss=1.640, train_loss_epoch=0.189]                                                                                                                                    [epoch 15] train_loss=0.189064 val_loss=1.639451 val_AUROC=NA val_F1=NA
+Epoch 15: 100%|██████████| 13/13 [00:00<00:00, 18.91it/s, v_num=2550, train_loss_step=0.109, val_loss=1.640, train_loss_epoch=0.189]Epoch 15: 100%|██████████| 13/13 [00:00<00:00, 18.87it/s, v_num=2550, train_loss_step=0.109, val_loss=1.640, train_loss_epoch=0.170]Epoch 15:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.109, val_loss=1.640, train_loss_epoch=0.170]         Epoch 16:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.109, val_loss=1.640, train_loss_epoch=0.170]Epoch 16: 100%|██████████| 13/13 [00:00<00:00, 21.93it/s, v_num=2550, train_loss_step=0.109, val_loss=1.640, train_loss_epoch=0.170]Epoch 16: 100%|██████████| 13/13 [00:00<00:00, 21.79it/s, v_num=2550, train_loss_step=0.138, val_loss=1.640, train_loss_epoch=0.170]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 45.38it/s][A
+                                                                      [AEpoch 16: 100%|██████████| 13/13 [00:00<00:00, 19.19it/s, v_num=2550, train_loss_step=0.138, val_loss=1.420, train_loss_epoch=0.170]                                                                                                                                    [epoch 16] train_loss=0.170136 val_loss=1.417034 val_AUROC=NA val_F1=NA
+Epoch 16: 100%|██████████| 13/13 [00:00<00:00, 19.18it/s, v_num=2550, train_loss_step=0.138, val_loss=1.420, train_loss_epoch=0.170]Epoch 16: 100%|██████████| 13/13 [00:00<00:00, 19.14it/s, v_num=2550, train_loss_step=0.138, val_loss=1.420, train_loss_epoch=0.160]Epoch 16:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.138, val_loss=1.420, train_loss_epoch=0.160]         Epoch 17:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.138, val_loss=1.420, train_loss_epoch=0.160]Epoch 17: 100%|██████████| 13/13 [00:00<00:00, 22.00it/s, v_num=2550, train_loss_step=0.138, val_loss=1.420, train_loss_epoch=0.160]Epoch 17: 100%|██████████| 13/13 [00:00<00:00, 21.84it/s, v_num=2550, train_loss_step=0.0391, val_loss=1.420, train_loss_epoch=0.160]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 44.47it/s][A
+                                                                      [AEpoch 17: 100%|██████████| 13/13 [00:00<00:00, 19.18it/s, v_num=2550, train_loss_step=0.0391, val_loss=1.440, train_loss_epoch=0.160]                                                                                                                                     [epoch 17] train_loss=0.160055 val_loss=1.438630 val_AUROC=NA val_F1=NA
+Epoch 17: 100%|██████████| 13/13 [00:00<00:00, 19.16it/s, v_num=2550, train_loss_step=0.0391, val_loss=1.440, train_loss_epoch=0.160]Epoch 17: 100%|██████████| 13/13 [00:00<00:00, 19.13it/s, v_num=2550, train_loss_step=0.0391, val_loss=1.440, train_loss_epoch=0.0924]Epoch 17:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.0391, val_loss=1.440, train_loss_epoch=0.0924]         Epoch 18:   0%|          | 0/13 [00:00<?, ?it/s, v_num=2550, train_loss_step=0.0391, val_loss=1.440, train_loss_epoch=0.0924]Epoch 18: 100%|██████████| 13/13 [00:00<00:00, 21.97it/s, v_num=2550, train_loss_step=0.0391, val_loss=1.440, train_loss_epoch=0.0924]Epoch 18: 100%|██████████| 13/13 [00:00<00:00, 21.82it/s, v_num=2550, train_loss_step=0.0639, val_loss=1.440, train_loss_epoch=0.0924]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s][A
+Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 45.69it/s][A
+                                                                      [AEpoch 18: 100%|██████████| 13/13 [00:00<00:00, 19.21it/s, v_num=2550, train_loss_step=0.0639, val_loss=2.530, train_loss_epoch=0.0924]                                                                                                                                      [epoch 18] train_loss=0.092392 val_loss=2.529348 val_AUROC=NA val_F1=NA
+Epoch 18: 100%|██████████| 13/13 [00:00<00:00, 19.19it/s, v_num=2550, train_loss_step=0.0639, val_loss=2.530, train_loss_epoch=0.0924]Epoch 18: 100%|██████████| 13/13 [00:00<00:00, 19.15it/s, v_num=2550, train_loss_step=0.0639, val_loss=2.530, train_loss_epoch=0.0752]Monitored metric val_loss did not improve in the last 10 records. Best score: 0.718. Signaling Trainer to stop.
+Epoch 18: 100%|██████████| 13/13 [00:00<00:00, 18.87it/s, v_num=2550, train_loss_step=0.0639, val_loss=2.530, train_loss_epoch=0.0752]
+Best checkpoint path: /workspace/results/tusl-events-v2-fp32/fold3/finetune/checkpoints/tusl_events_v2_fold3_fp32/tusl_events_v2_fold3_fp32_06_11_18-27-48.012550/epoch=8-step=117.ckpt
+Best model score: 0.717638373374939
+===> Start validation
+Restoring states from the checkpoint path at /workspace/results/tusl-events-v2-fp32/fold3/finetune/checkpoints/tusl_events_v2_fold3_fp32/tusl_events_v2_fold3_fp32_06_11_18-27-48.012550/epoch=8-step=117.ckpt
+/root/.pyenv/versions/3.11.1/lib/python3.11/site-packages/lightning_fabric/utilities/cloud_io.py:73: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0]
+Loaded model weights from the checkpoint at /workspace/results/tusl-events-v2-fp32/fold3/finetune/checkpoints/tusl_events_v2_fold3_fp32/tusl_events_v2_fold3_fp32_06_11_18-27-48.012550/epoch=8-step=117.ckpt
+Validation: |          | 0/? [00:00<?, ?it/s]Validation: |          | 0/? [00:00<?, ?it/s]Validation DataLoader 0:   0%|          | 0/3 [00:00<?, ?it/s]Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 44.66it/s]Validation DataLoader 0: 100%|██████████| 3/3 [00:00<00:00, 37.76it/s]
+[epoch 19] train_loss=NA val_loss=0.717638 val_AUROC=NA val_F1=NA
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃        Validate metric         ┃          DataLoader 0          ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│      val_MulticlassAUROC       │       0.8780836462974548       │
+│     val_MulticlassAccuracy     │       0.6583333015441895       │
+│ val_MulticlassAveragePrecision │       0.8067848682403564       │
+│    val_MulticlassCohenKappa    │       0.4980419874191284       │
+│     val_MulticlassF1Score      │       0.6707502007484436       │
+│    val_MulticlassPrecision     │       0.7179139852523804       │
+│      val_MulticlassRecall      │       0.6583333015441895       │
+│            val_loss            │       0.717638373374939        │
+└────────────────────────────────┴────────────────────────────────┘

@@ -1,0 +1,32 @@
+{
+  "checkpoint_sha256": "802ab5d93075ecd8b03be12bf5bddcdc381b1234d8736e694946cf6c575030bb",
+  "config": {
+    "bits": 8,
+    "group_size": 64,
+    "granularity": "channel",
+    "method": "full",
+    "rotation_transform": "hadamard",
+    "rotation_size": null,
+    "rotation_seed": 2025,
+    "clip_percentile": 100.0,
+    "scope": "all-weights",
+    "classifier_bits": null,
+    "include": [],
+    "exclude": [],
+    "weight_init": "mse",
+    "activation_bits": 32,
+    "calibration_method": null,
+    "activation_percentile": null,
+    "calibration_windows": null,
+    "calibration_batch_size": null,
+    "calibration_seed": null,
+    "calibration_weight_state": null
+  },
+  "split": "test",
+  "data_file": "/workspace/EEGdata/tuar/test.h5",
+  "data_bytes": 868913848,
+  "data_mtime_ns": 1792870446000000000,
+  "partial_evaluation": false,
+  "calibration_data": null,
+  "exported_checkpoint_sha256": "802ab5d93075ecd8b03be12bf5bddcdc381b1234d8736e694946cf6c575030bb"
+}

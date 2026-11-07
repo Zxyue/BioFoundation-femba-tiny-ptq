@@ -1,0 +1,1 @@
+/workspace/results/tusl-events-v2-fp32/fold1/finetune/checkpoints/tusl_events_v2_fold1_fp32/tusl_events_v2_fold1_fp32_06_11_18-26-51.312348/epoch=9-step=130.ckpt

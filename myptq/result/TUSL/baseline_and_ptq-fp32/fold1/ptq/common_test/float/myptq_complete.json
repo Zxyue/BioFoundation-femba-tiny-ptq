@@ -1,0 +1,32 @@
+{
+  "checkpoint_sha256": "23110ca353f2e046d20daf48c758c9df62341313b9cb4bce8da1f9a293e75184",
+  "config": {
+    "bits": 0,
+    "group_size": 64,
+    "granularity": "channel",
+    "method": "symmetric",
+    "rotation_transform": null,
+    "rotation_size": null,
+    "rotation_seed": null,
+    "clip_percentile": 100.0,
+    "scope": "encoder-linear",
+    "classifier_bits": null,
+    "include": [],
+    "exclude": [],
+    "weight_init": "max",
+    "activation_bits": 32,
+    "calibration_method": null,
+    "activation_percentile": null,
+    "calibration_windows": null,
+    "calibration_batch_size": null,
+    "calibration_seed": null,
+    "calibration_weight_state": null
+  },
+  "split": "test",
+  "data_file": "/workspace/EEGdata/tusl-events-20261026-v2/fold1/test.h5",
+  "data_bytes": 8796368,
+  "data_mtime_ns": 1792953754000000000,
+  "partial_evaluation": false,
+  "calibration_data": null,
+  "exported_checkpoint_sha256": null
+}

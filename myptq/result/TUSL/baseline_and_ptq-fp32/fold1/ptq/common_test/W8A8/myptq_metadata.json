@@ -1,0 +1,1136 @@
+{
+  "method": "PTQ",
+  "quant_format": "W8A8",
+  "finetune_precision": "fp32",
+  "source_weight_dtypes": [
+    "torch.float32"
+  ],
+  "ptq_compute_dtype": "fp32",
+  "checkpoint": "/workspace/results/tusl-events-v2-fp32/fold1/ptq/sweep/w8a8_block_mse_3892d63db6/myptq.ckpt",
+  "checkpoint_sha256": "a2bbd444b4bcd501b11d749b309b0e85d8ba48ae2d58b478b8ae8409b188a683",
+  "config": {
+    "bits": 8,
+    "group_size": 64,
+    "granularity": "channel",
+    "method": "block",
+    "rotation_transform": "hadamard",
+    "rotation_size": 64,
+    "rotation_seed": 2025,
+    "clip_percentile": 100.0,
+    "scope": "all-weights",
+    "classifier_bits": null,
+    "include": [],
+    "exclude": [],
+    "weight_init": "mse",
+    "activation_bits": 8,
+    "calibration_method": "sequential",
+    "activation_percentile": 99.999,
+    "calibration_windows": 1024,
+    "calibration_batch_size": 32,
+    "calibration_seed": 42,
+    "calibration_weight_state": "quantized"
+  },
+  "ptq": {
+    "config": {
+      "bits": 8,
+      "group_size": 64,
+      "granularity": "channel",
+      "method": "block",
+      "rotation_transform": "hadamard",
+      "rotation_size": 64,
+      "rotation_seed": 2025,
+      "clip_percentile": 100.0,
+      "scope": "all-weights",
+      "classifier_bits": null,
+      "include": [],
+      "exclude": [],
+      "weight_init": "mse",
+      "activation_bits": 8,
+      "calibration_method": "sequential",
+      "activation_percentile": 99.999,
+      "calibration_windows": 1024,
+      "calibration_batch_size": 32,
+      "calibration_seed": 42,
+      "calibration_weight_state": "quantized"
+    },
+    "layers": [
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 35,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 0.00266022100223331,
+        "scale_max": 0.009714732019920048,
+        "mse": 3.3253238554569997e-06,
+        "relative_error": 0.005148931245417241,
+        "rotation": {
+          "method": "symmetric",
+          "transform": null,
+          "input_width": 32,
+          "rotated_width": 32,
+          "padding_width": 0,
+          "block_size": null,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 914352490,
+        "effective_relative_error": 0.0051489324474274095,
+        "effective_mse": 3.325325408040773e-06,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "patch_embed.proj",
+        "module_type": "Conv2d",
+        "weight_shape": [
+          35,
+          1,
+          2,
+          16
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 21560,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 7.615477536421354e-09,
+        "scale_max": 0.0018515309631880867,
+        "mse": 3.440628241968233e-08,
+        "relative_error": 0.005889992926660698,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 385,
+          "rotated_width": 448,
+          "padding_width": 63,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 3923295321,
+        "effective_relative_error": 0.005889992972418758,
+        "effective_mse": 4.003640198317608e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.0.mamba_fwd.in_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          3080,
+          385
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1540,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 8.988652495652672e-06,
+        "scale_max": 0.043331915938009426,
+        "mse": 4.0971923363837767e-07,
+        "relative_error": 0.003185777899908259,
+        "rotation": {
+          "method": "symmetric",
+          "transform": null,
+          "input_width": 4,
+          "rotated_width": 4,
+          "padding_width": 0,
+          "block_size": null,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 4012211440,
+        "effective_relative_error": 0.0031857787907755364,
+        "effective_mse": 4.097194627852428e-07,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.0.mamba_fwd.conv1d",
+        "module_type": "Conv1d",
+        "weight_shape": [
+          1540,
+          1,
+          4
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1425,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 7.47215272272079e-06,
+        "scale_max": 0.001161285211876063,
+        "mse": 2.603808551706857e-08,
+        "relative_error": 0.005908468372252748,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 1540,
+          "rotated_width": 1600,
+          "padding_width": 60,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 4227400405,
+        "effective_relative_error": 0.005908468579565115,
+        "effective_mse": 2.705255827977444e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.0.mamba_fwd.x_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          57,
+          1540
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1540,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 7.857166306130812e-05,
+        "scale_max": 0.0041720133969618935,
+        "mse": 4.6933360781285704e-08,
+        "relative_error": 0.005404312108526371,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 25,
+          "rotated_width": 64,
+          "padding_width": 39,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 1395116594,
+        "effective_relative_error": 0.00477406483258169,
+        "effective_mse": 9.375995704331969e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.0.mamba_fwd.dt_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          1540,
+          25
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 9625,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 1.5144507021367766e-05,
+        "scale_max": 0.0015699759125251205,
+        "mse": 2.7003326297811224e-08,
+        "relative_error": 0.0059091543613457856,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 1540,
+          "rotated_width": 1600,
+          "padding_width": 60,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 2380492571,
+        "effective_relative_error": 0.00590915431285356,
+        "effective_mse": 2.8055403485323506e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.0.mamba_fwd.out_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          385,
+          1540
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 21560,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 1.0312466807003449e-08,
+        "scale_max": 0.0017952330718534232,
+        "mse": 3.3677415675285815e-08,
+        "relative_error": 0.005893769604067736,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 385,
+          "rotated_width": 448,
+          "padding_width": 63,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 2242275505,
+        "effective_relative_error": 0.005893769571502895,
+        "effective_mse": 3.918826508002855e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.0.mamba_rev.in_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          3080,
+          385
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1540,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 6.909161718107584e-05,
+        "scale_max": 0.0298123247041477,
+        "mse": 3.167590568871475e-07,
+        "relative_error": 0.003314427656427635,
+        "rotation": {
+          "method": "symmetric",
+          "transform": null,
+          "input_width": 4,
+          "rotated_width": 4,
+          "padding_width": 0,
+          "block_size": null,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 51028067,
+        "effective_relative_error": 0.0033144275164621,
+        "effective_mse": 3.1675903013420307e-07,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.0.mamba_rev.conv1d",
+        "module_type": "Conv1d",
+        "weight_shape": [
+          1540,
+          1,
+          4
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1425,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 1.3185714138442592e-05,
+        "scale_max": 0.0013645800642025708,
+        "mse": 2.6661998516377718e-08,
+        "relative_error": 0.005865917091753705,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 1540,
+          "rotated_width": 1600,
+          "padding_width": 60,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 2035806788,
+        "effective_relative_error": 0.00586591707848167,
+        "effective_mse": 2.770077755400456e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.0.mamba_rev.x_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          57,
+          1540
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1540,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 0.00011000982964664375,
+        "scale_max": 0.004952809284807835,
+        "mse": 4.233050991450151e-08,
+        "relative_error": 0.005384188334370029,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 25,
+          "rotated_width": 64,
+          "padding_width": 39,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 1284610345,
+        "effective_relative_error": 0.004765287048362521,
+        "effective_mse": 8.488503125651404e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.0.mamba_rev.dt_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          1540,
+          25
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 9625,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 1.318674798327036e-05,
+        "scale_max": 0.0016294534274149599,
+        "mse": 2.6827118600146468e-08,
+        "relative_error": 0.005928388801790873,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 1540,
+          "rotated_width": 1600,
+          "padding_width": 60,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 393871679,
+        "effective_relative_error": 0.005928388826491085,
+        "effective_mse": 2.7872331245403166e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.0.mamba_rev.out_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          385,
+          1540
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 21560,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 3.756184830888556e-08,
+        "scale_max": 0.001813874184414648,
+        "mse": 3.7130120857078176e-08,
+        "relative_error": 0.005938451721027364,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 385,
+          "rotated_width": 448,
+          "padding_width": 63,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 2015533841,
+        "effective_relative_error": 0.0059384516959316205,
+        "effective_mse": 4.320595845036186e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.1.mamba_fwd.in_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          3080,
+          385
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1540,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 0.0003803812671364762,
+        "scale_max": 0.02300560192799005,
+        "mse": 2.4087528441166273e-06,
+        "relative_error": 0.0033331496664758507,
+        "rotation": {
+          "method": "symmetric",
+          "transform": null,
+          "input_width": 4,
+          "rotated_width": 4,
+          "padding_width": 0,
+          "block_size": null,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 3123460657,
+        "effective_relative_error": 0.003333149743597969,
+        "effective_mse": 2.408752955583644e-06,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.1.mamba_fwd.conv1d",
+        "module_type": "Conv1d",
+        "weight_shape": [
+          1540,
+          1,
+          4
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1425,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 3.200842120994513e-05,
+        "scale_max": 0.0029053707945909477,
+        "mse": 1.4509677633882956e-07,
+        "relative_error": 0.0058437547616273355,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 1540,
+          "rotated_width": 1600,
+          "padding_width": 60,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 1030459238,
+        "effective_relative_error": 0.005843754805780718,
+        "effective_mse": 1.5074989977292095e-07,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.1.mamba_fwd.x_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          57,
+          1540
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1540,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 0.00043241977512902457,
+        "scale_max": 0.008428267001607053,
+        "mse": 2.571106379794371e-07,
+        "relative_error": 0.005327269604105799,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 25,
+          "rotated_width": 64,
+          "padding_width": 39,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 1123698768,
+        "effective_relative_error": 0.004706503406063086,
+        "effective_mse": 5.137447696718623e-07,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.1.mamba_fwd.dt_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          1540,
+          25
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 9625,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 1.5597685980867213e-05,
+        "scale_max": 0.0029587811706991,
+        "mse": 3.831339716525293e-08,
+        "relative_error": 0.0058162550085145365,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 1540,
+          "rotated_width": 1600,
+          "padding_width": 60,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 3101505742,
+        "effective_relative_error": 0.005816255008250457,
+        "effective_mse": 3.9806126921332784e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.1.mamba_fwd.out_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          385,
+          1540
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 21560,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 1.2255832296532605e-08,
+        "scale_max": 0.0017951095109110182,
+        "mse": 3.742927514159321e-08,
+        "relative_error": 0.005938626249347658,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 385,
+          "rotated_width": 448,
+          "padding_width": 63,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 3284305870,
+        "effective_relative_error": 0.005938626253229914,
+        "effective_mse": 4.3554065676284835e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.1.mamba_rev.in_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          3080,
+          385
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1540,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 0.00065617327849696,
+        "scale_max": 0.023590846324530172,
+        "mse": 2.8067582506671307e-06,
+        "relative_error": 0.003350731444547899,
+        "rotation": {
+          "method": "symmetric",
+          "transform": null,
+          "input_width": 4,
+          "rotated_width": 4,
+          "padding_width": 0,
+          "block_size": null,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 1773984216,
+        "effective_relative_error": 0.003350731240491429,
+        "effective_mse": 2.80675790880914e-06,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.1.mamba_rev.conv1d",
+        "module_type": "Conv1d",
+        "weight_shape": [
+          1540,
+          1,
+          4
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1425,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 3.4176596251543696e-05,
+        "scale_max": 0.002514753148315372,
+        "mse": 1.2906618897431846e-07,
+        "relative_error": 0.0058532984301941674,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 1540,
+          "rotated_width": 1600,
+          "padding_width": 60,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 3226597705,
+        "effective_relative_error": 0.005853298379421907,
+        "effective_mse": 1.3409473946519393e-07,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.1.mamba_rev.x_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          57,
+          1540
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1540,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 0.00023803873148959452,
+        "scale_max": 0.006108789585574757,
+        "mse": 2.2163509733216833e-07,
+        "relative_error": 0.005376888928457199,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 25,
+          "rotated_width": 64,
+          "padding_width": 39,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 512366286,
+        "effective_relative_error": 0.004748413449449789,
+        "effective_mse": 4.4250015018656034e-07,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.1.mamba_rev.dt_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          1540,
+          25
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 9625,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 9.122061246170069e-06,
+        "scale_max": 0.0035888485618906854,
+        "mse": 3.785343521623893e-08,
+        "relative_error": 0.0058104429766997565,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 1540,
+          "rotated_width": 1600,
+          "padding_width": 60,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 467757529,
+        "effective_relative_error": 0.005810442924542669,
+        "effective_mse": 3.932824367446306e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "mamba_blocks.1.mamba_rev.out_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          385,
+          1540
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 1792,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 3.9297449938754925e-07,
+        "scale_max": 0.001110767156177193,
+        "mse": 2.6094240864486143e-08,
+        "relative_error": 0.005938198924017872,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 385,
+          "rotated_width": 448,
+          "padding_width": 63,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 491634363,
+        "effective_relative_error": 0.005938198980216583,
+        "effective_mse": 3.036420812613348e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "classifier.fc1",
+        "module_type": "Linear",
+        "weight_shape": [
+          256,
+          385
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 4096,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 0.00046963261951260196,
+        "scale_max": 0.0012347608811921426,
+        "mse": 4.54323552274782e-08,
+        "relative_error": 0.005950446500818828,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 256,
+          "rotated_width": 256,
+          "padding_width": 0,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 345864825,
+        "effective_relative_error": 0.0059504465153292175,
+        "effective_mse": 4.5432355449059345e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "classifier.mamba_1.in_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          1024,
+          256
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 512,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 0.0008680352897155941,
+        "scale_max": 0.003944085808250848,
+        "mse": 5.741884959159275e-07,
+        "relative_error": 0.002677407052588697,
+        "rotation": {
+          "method": "symmetric",
+          "transform": null,
+          "input_width": 4,
+          "rotated_width": 4,
+          "padding_width": 0,
+          "block_size": null,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 1911099544,
+        "effective_relative_error": 0.002677406724787818,
+        "effective_mse": 5.74188355317596e-07,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "classifier.mamba_1.conv1d",
+        "module_type": "Conv1d",
+        "weight_shape": [
+          512,
+          1,
+          4
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 384,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 0.00036061109870023233,
+        "scale_max": 0.0008220997248619509,
+        "mse": 2.2241030168844782e-08,
+        "relative_error": 0.005907138740871133,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 512,
+          "rotated_width": 512,
+          "padding_width": 0,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 2090323992,
+        "effective_relative_error": 0.0059071385925507855,
+        "effective_mse": 2.2241029051959972e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "classifier.mamba_1.x_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          48,
+          512
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 512,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 0.00043724463449600407,
+        "scale_max": 0.002273418889270993,
+        "mse": 1.1610023952922635e-07,
+        "relative_error": 0.004771668257201213,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 16,
+          "rotated_width": 64,
+          "padding_width": 48,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 2478575285,
+        "effective_relative_error": 0.004771668287382037,
+        "effective_mse": 4.6440096399158193e-07,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "classifier.mamba_1.dt_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          512,
+          16
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 2048,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 0.00033730009238028947,
+        "scale_max": 0.0010270059664915206,
+        "mse": 2.347259681076643e-08,
+        "relative_error": 0.005983121067372274,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 512,
+          "rotated_width": 512,
+          "padding_width": 0,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 1486759641,
+        "effective_relative_error": 0.005983121100282361,
+        "effective_mse": 2.3472597068989267e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "classifier.mamba_1.out_proj",
+        "module_type": "Linear",
+        "weight_shape": [
+          256,
+          512
+        ]
+      },
+      {
+        "bits": 8,
+        "integer_range": [
+          -127,
+          127
+        ],
+        "scales": 12,
+        "group_size": 64,
+        "granularity": "channel",
+        "clip_percentile": 100.0,
+        "weight_init": "mse",
+        "scale_min": 0.0006520421320744827,
+        "scale_max": 0.0010745951783071972,
+        "mse": 5.20328660785987e-08,
+        "relative_error": 0.006014674822574782,
+        "rotation": {
+          "method": "block",
+          "transform": "hadamard",
+          "input_width": 256,
+          "rotated_width": 256,
+          "padding_width": 0,
+          "block_size": 64,
+          "full_rotation_dimension": null,
+          "computation_dtype": "float64"
+        },
+        "seed": 3317634226,
+        "effective_relative_error": 0.006014674770915768,
+        "effective_mse": 5.203286518479585e-08,
+        "representation": "original-basis floating-point Q(W R) R^T; fake quant; no integer kernel",
+        "name": "classifier.fc3",
+        "module_type": "Linear",
+        "weight_shape": [
+          3,
+          256
+        ]
+      }
+    ],
+    "skipped": [],
+    "quantized_weight_tensors": 28,
+    "rotation_only_on_linear": true,
+    "activation_quantized": false,
+    "original_module_and_parameter_objects_preserved": true
+  },
+  "model_config": {
+    "seq_length": 1280,
+    "num_channels": 22,
+    "exp": 4,
+    "num_classes": 3,
+    "num_blocks": 2,
+    "embed_dim": 35,
+    "classification_type": "mcc"
+  },
+  "normalization": {
+    "enabled": true,
+    "lower": -20.0,
+    "upper": 20.0
+  },
+  "split": "test",
+  "data_file": "/workspace/EEGdata/tusl-events-20261026-v2/fold1/test.h5",
+  "partial_evaluation": false,
+  "rotation_equivalence": {
+    "checked": false
+  },
+  "activation_bits": 8,
+  "activation_quantized": true,
+  "activation_quantizers": 32,
+  "calibration_data": null,
+  "calibration_report": null,
+  "recipe": {
+    "method": "sequential",
+    "weight_state": "quantized",
+    "requested_windows": 1024,
+    "actual_windows": 436,
+    "batch_size": 32,
+    "seed": 42
+  },
+  "runtime": {
+    "torch": "2.5.1+cu124",
+    "cuda_build": "12.4",
+    "mamba_ssm": "2.2.6.post3",
+    "brevitas": null
+  },
+  "implementation": {
+    "framework": {
+      "ptq.py": "8712116c3c3d6ee99c410034596d75744bf971283d739aaf7714a8c540472464",
+      "ptq_quant.py": "b4708c75352e04588669af32376e9168cefe5d4967fb72d06612bf54e027bc9f",
+      "ptq_calibration.py": "a9fe0cb02f206837fad8849b62c485dae9a36309ec3274865a9efa947c2721ef",
+      "ptq_activation_observer.py": "56d4d43eff389043af919153962e3d580ceff804c790c19233f5c6f70769f4a3",
+      "ptq_activation_sequential.py": "4ffafb3b3a174c2f49ada617316b52e17275bccf975fae640faa21fb4d317d5b",
+      "ptq_runtime.py": "98d20c1a289bddf01d9e251818af883ca173bec968403eb83c69e54b8401587f"
+    },
+    "model": "384ed796e0cdfc75db63eef5a05cd9219f258be5e112c595f4abc0a048d8827e",
+    "mamba_sources": {
+      "mamba_ssm.modules.mamba_simple": "a17e4c51b582dc0d4d690a649eba521cd0c1ee3dc8f0473a0967cdc9ec0874e3",
+      "mamba_ssm.ops.selective_scan_interface": "543edd077f11c80cccd5c5e2f926420d9105fd238d9e8960e53660cfa234dce8"
+    }
+  },
+  "exported_checkpoint_sha256": "a2bbd444b4bcd501b11d749b309b0e85d8ba48ae2d58b478b8ae8409b188a683",
+  "strict_load": true,
+  "execution": "FP32 fake quant; cached effective weights; CUDA selective scan"
+}

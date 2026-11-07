@@ -1,0 +1,11 @@
+{
+  "samples": 78,
+  "auroc": 0.9607988165680473,
+  "average_precision": 0.9436882254398898,
+  "accuracy": 0.8846153846153846,
+  "balanced_accuracy": 0.8846153846153846,
+  "f1": 0.8860809572055772,
+  "ece_15_bins": 0.0785156428078497,
+  "loss": 0.38060676179315855,
+  "score_definition": "float64_softmax; macro_ovr"
+}

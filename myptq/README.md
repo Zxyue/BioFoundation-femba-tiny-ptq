@@ -108,8 +108,8 @@ python myptq/code/ptq_cuda_check.py --quant-format W4A8 --weight-scope all-weigh
 python -m unittest discover -s myptq/code -p 'ptq*test.py' -v
 ```
 
-已在TUAR数据集上完成 FP32、BF16 微调，TUSL数据集上完成 FP32微调，两个数据集均完成各 60 个验证集 PTQ 配置。TUAR数据集上 FP16 微调出现 NaN，该次 checkpoint 不用于扫描。所有结果在result目录下。
+结果按 `result/TUAR/origin-dataset`、`result/TUAR/tuar` 和 `result/TUSL` 整理。TUAR 两种划分均包含 HF 与随机初始化基线，受试者划分还完成两种父模型的 PTQ 测试。TUSL 使用三分类四折，包含 HF 微调、共同配置测试和随机初始化 FP32 对照。共完成 480 个验证扫描配置。详细比较、INT4 配方、远程文件路径和哈希见 [result.md](result.md)。
 
-按同一父模型计算量化损失。可先用 `--weight-bits 0 --activation-bits 32` 分别跑 val 和 test 的浮点基准。扫参只在 val 进行，选定配置后再评估 test。历史结果中 A8/A4 的预测几乎全为正类，分析时同时看平衡准确率和混淆矩阵。
+按同一父模型计算量化损失。可先用 `--weight-bits 0 --activation-bits 32` 分别跑 val 和 test 的浮点基准。扫参只在 val 进行，选定配置后再评估 test。受试者划分 TUAR 的 A8/A4 出现近单类预测，TUSL 的 A8 保留部分排序能力但宏 F1 明显下降，分析时同时查看平衡准确率和混淆矩阵。TUAR 当前清单按验证选择 FP32 的 W4A32，BF16 候选测试表现更好，二者在结果文档中分别标记。
 
 入口：`ptq_finetune.py` 微调、`ptq.py` PTQ、`ptq_sweep.py` 扫描。算法在 `ptq_quant.py`、`ptq_calibration.py` 及两个 activation 文件；`ptq_cuda_check.py` 用于远程检查。来源和许可证见 `ptq_sources.json`、`ptq_LICENSE`、`ptq_mamba_NOTICE.txt`。
